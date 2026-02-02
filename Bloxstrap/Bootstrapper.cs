@@ -371,9 +371,6 @@ namespace Bloxstrap
                 App.Logger.WriteLine(LOG_IDENT, $"Got channel as {channel}");
 
                 Deployment.Channel = channel;
-
-                if (!Deployment.IsDefaultChannel)
-                    App.SendStat("robloxChannel", channel);
             }
             else
             {
@@ -681,7 +678,8 @@ namespace Bloxstrap
                 { 
                     ProcessId = _appPid, 
                     LogFile = logFileName, 
-                    AutoclosePids = autoclosePids
+                    AutoclosePids = autoclosePids,
+                    RobloxDirectory = _latestVersionDirectory
                 };
 
                 string watcherDataArg = Convert.ToBase64String(Encoding.UTF8.GetBytes(JsonSerializer.Serialize(watcherData)));
@@ -804,7 +802,7 @@ namespace Bloxstrap
             try
             {
 #if DEBUG_UPDATER
-                string downloadLocation = Path.Combine(Paths.TempUpdates, "Bloxstrap.exe");
+                string downloadLocation = Path.Combine(Paths.TempUpdates, "Funkstrap.exe");
 
                 Directory.CreateDirectory(Paths.TempUpdates);
 
@@ -1381,6 +1379,23 @@ namespace Bloxstrap
                 }
             }
 
+            if (App.Settings.Prop.EnableActivityTracking && App.Settings.Prop.UseWindowControl) {
+                var idsPath = Path.Combine(_latestVersionDirectory, "content\\bloxstrap");
+
+                // make sure it exists
+                Directory.CreateDirectory(idsPath);
+
+                var directory = new DirectoryInfo(idsPath);
+                
+                // clear
+                foreach(FileInfo file in directory.GetFiles()) file.Delete();
+                foreach (DirectoryInfo subDirectory in directory.GetDirectories()) subDirectory.Delete(true);
+            
+                System.Drawing.Bitmap enabledBitmap = new System.Drawing.Bitmap(1, 1);
+                enabledBitmap.SetPixel(0, 0, System.Drawing.Color.White);
+                enabledBitmap.Save(Path.Combine(idsPath, $"enabled.png"), System.Drawing.Imaging.ImageFormat.Png);
+            }
+
             // the manifest is primarily here to keep track of what files have been
             // deleted from the modifications folder, so that we know when to restore the original files from the downloaded packages
             // now check for files that have been deleted from the mod folder according to the manifest
@@ -1558,8 +1573,6 @@ namespace Bloxstrap
 
                     if (ex.GetType() == typeof(ChecksumFailedException))
                     {
-                        App.SendStat("packageDownloadState", "httpFail");
-
                         Frontend.ShowConnectivityDialog(
                             Strings.Dialog_Connectivity_UnableToDownload,
                             String.Format(Strings.Dialog_Connectivity_UnableToDownloadReason, "[https://bloxstraplabs.com/wiki/help/bloxstrap-cannot-download-roblox/](https://bloxstraplabs.com/wiki/help/bloxstrap-cannot-download-roblox/)"),

@@ -6,7 +6,7 @@ namespace Bloxstrap.Models.Persistable
     {
         // bloxstrap configuration
         public BootstrapperStyle BootstrapperStyle { get; set; } = BootstrapperStyle.FluentDialog;
-        public BootstrapperIcon BootstrapperIcon { get; set; } = BootstrapperIcon.IconBloxstrap;
+        public BootstrapperIcon BootstrapperIcon { get; set; } = BootstrapperIcon.IconFunkstrap;
         public string BootstrapperTitle { get; set; } = App.ProjectName;
         public string BootstrapperIconCustomLocation { get; set; } = "";
         public Theme Theme { get; set; } = Theme.Default;
@@ -17,11 +17,21 @@ namespace Bloxstrap.Models.Persistable
         public string Locale { get; set; } = "nil";
         public bool UseFastFlagManager { get; set; } = true;
         public bool WPFSoftwareRender { get; set; } = false;
-        public bool EnableAnalytics { get; set; } = true;
         public bool BackgroundUpdatesEnabled { get; set; } = false;
         public bool DebugDisableVersionPackageCleanup { get; set; } = false;
         public string? SelectedCustomTheme { get; set; } = null;
         public WebEnvironment WebEnvironment { get; set; } = WebEnvironment.Production;
+
+        // Window Control Settings
+        public bool UseWindowControl { get; set; } = false;
+        public bool MoveWindowAllowed { get; set; } = true;
+        public bool TitleControlAllowed { get; set; } = true;
+        public bool WindowTransparencyAllowed { get; set; } = true;
+        public WindowMonitorStyle WindowMonitorStyle { get; set; } = WindowMonitorStyle.Single;
+        public int WindowReadFPS { get; set; } = 60;
+        public bool WindowAllowAll { get; set; } = false;
+        public ObservableCollection<long> WindowAllowedUniverses { get; set; } = new();
+        public ObservableCollection<long> WindowBlacklistedUniverses { get; set; } = new();
 
         // integration configuration
         public bool EnableActivityTracking { get; set; } = true;

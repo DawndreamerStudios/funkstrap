@@ -1054,7 +1054,7 @@ Ogni persona qui è classificato dal loro impegno generale.</value>
   <data name="Installer.Install.CannotOverwrite" xml:space="preserve">
     <value>Bloxstrap è stato installato in questa posizione prima che ed è ancora presente, tuttavia l'installer non può sovrascrivere il vecchio eseguibile.
 
-Per favore elimina manualmente Bloxstrap.exe dalla posizione d'installazione o prova a riavviare il sistema, e poi riprovare l'installazione.</value>
+Per favore elimina manualmente Funkstrap.exe dalla posizione d'installazione o prova a riavviare il sistema, e poi riprovare l'installazione.</value>
   </data>
   <data name="Common.NotAvailable" xml:space="preserve">
     <value>Non disponibile</value>
@@ -1098,15 +1098,6 @@ Assicurati che non ci sia nulla che possa limitare le operazioni di Bloxstrap.</
   </data>
   <data name="Menu.Bloxstrap.Description" xml:space="preserve">
     <value>Configura le opzioni a riguardo del comportamento di Bloxstrap.</value>
-  </data>
-  <data name="Menu.Bloxstrap.Analytics.Title" xml:space="preserve">
-    <value>Abilita l'invio delle statistiche</value>
-  </data>
-  <data name="Menu.Bloxstrap.Analytics.Description" xml:space="preserve">
-    <value>È anonimo e non è niente di male, promesso. Per informazioni su che cosa collezioniamo e perché, guarda la nostra [informativa sulla privacy]({0}).</value>
-  </data>
-  <data name="Common.Analytics" xml:space="preserve">
-    <value>Statistiche</value>
   </data>
   <data name="Menu.FastFlags.Reset.Title" xml:space="preserve">
     <value>Ripristina tutto ai valori predefiniti</value>

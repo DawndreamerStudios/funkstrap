@@ -1054,7 +1054,7 @@ Fiecare persoană este clasată în funcție de contribuția totală.</value>
   <data name="Installer.Install.CannotOverwrite" xml:space="preserve">
     <value>Bloxstrap a fost instalat în această locație înainte și este încă prezent, dar instalatorul nu poate suprascrie vechiul executabil. 
 
-Vă rugăm să ștergeți manual Bloxstrap.exe din locația de instalare sau să încercați să reporniți sistemul, și apoi reîncercați instalarea.</value>
+Vă rugăm să ștergeți manual Funkstrap.exe din locația de instalare sau să încercați să reporniți sistemul, și apoi reîncercați instalarea.</value>
   </data>
   <data name="Common.NotAvailable" xml:space="preserve">
     <value>Indisponibil</value>

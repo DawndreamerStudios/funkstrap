@@ -13,16 +13,12 @@ namespace Bloxstrap
     /// </summary>
     public partial class App : Application
     {
-#if QA_BUILD
-        public const string ProjectName = "Bloxstrap-QA";
-#else
-        public const string ProjectName = "Bloxstrap";
-#endif
-        public const string ProjectOwner = "Bloxstrap";
-        public const string ProjectRepository = "bloxstraplabs/bloxstrap";
+        public const string ProjectName = "Funkstrap";
+        public const string ProjectOwner = "Dawndreamer Studios";
+        public const string ProjectRepository = "DawndreamerStudios/funkstrap";
         public const string ProjectDownloadLink = "https://bloxstraplabs.com";
         public const string ProjectHelpLink = "https://bloxstraplabs.com/wiki/help/";
-        public const string ProjectSupportLink = "https://github.com/bloxstraplabs/bloxstrap/issues/new";
+        public const string ProjectSupportLink = "https://github.com/DawndreamerStudios/funkstrap/issues/new";
 
         public const string RobloxPlayerAppName = "RobloxPlayerBeta";
         public const string RobloxStudioAppName = "RobloxStudioBeta";
@@ -35,6 +31,8 @@ namespace Bloxstrap
         public static BuildMetadataAttribute BuildMetadata = Assembly.GetExecutingAssembly().GetCustomAttribute<BuildMetadataAttribute>()!;
 
         public static string Version = Assembly.GetExecutingAssembly().GetName().Version!.ToString()[..^2];
+
+        public static string BLOX_Version = (Assembly.GetEntryAssembly() ?? Assembly.GetExecutingAssembly()).GetCustomAttributes<AssemblyMetadataAttribute>().FirstOrDefault(a => a.Key == "BLOX_Version")?.Value ?? "unknown";
 
         public static Bootstrapper? Bootstrapper { get; set; } = null!;
 
@@ -129,8 +127,6 @@ namespace Bloxstrap
 
             _showingExceptionDialog = true;
 
-            SendLog();
-
             if (Bootstrapper?.Dialog != null)
             {
                 if (Bootstrapper.Dialog.TaskbarProgressValue == 0)
@@ -185,39 +181,6 @@ namespace Bloxstrap
             }
 
             return null;
-        }
-
-        public static async void SendStat(string key, string value)
-        {
-            if (!Settings.Prop.EnableAnalytics)
-                return;
-
-            try
-            {
-                await HttpClient.GetAsync($"https://{WebUrl}/metrics/post?key={key}&value={value}");
-            }
-            catch (Exception ex)
-            {
-                Logger.WriteException("App::SendStat", ex);
-            }
-        }
-
-        public static async void SendLog()
-        {
-            if (!Settings.Prop.EnableAnalytics || !CanSendLogs())
-                return;
-
-            try
-            {
-                await HttpClient.PostAsync(
-                    $"https://{WebUrl}/metrics/post-exception", 
-                    new StringContent(Logger.AsDocument)
-                );
-            }
-            catch (Exception ex)
-            {
-                Logger.WriteException("App::SendLog", ex);
-            }
         }
 
         public static void AssertWindowsOSVersion()

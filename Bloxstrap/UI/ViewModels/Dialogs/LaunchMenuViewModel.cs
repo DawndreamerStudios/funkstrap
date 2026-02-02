@@ -9,6 +9,7 @@ namespace Bloxstrap.UI.ViewModels.Installer
     public class LaunchMenuViewModel
     {
         public string Version => string.Format(Strings.Menu_About_Version, App.Version);
+        public string Blox_Version => string.Format("(Bloxstrap {0})", App.BLOX_Version);
 
         public ICommand LaunchSettingsCommand => new RelayCommand(LaunchSettings);
 

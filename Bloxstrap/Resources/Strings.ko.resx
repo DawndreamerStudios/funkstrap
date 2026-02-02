@@ -1054,7 +1054,7 @@ Bloxstrap이 “{1}”에 설치되어 있습니다.</value>
   <data name="Installer.Install.CannotOverwrite" xml:space="preserve">
     <value>Bloxstrap이 이전에 이 위치에 설치되었으며 여전히 존재하지만, 설치 관리자가 이전 실행 파일을 덮어쓸 수 없습니다. 
 
-설치 위치에서 Bloxstrap.exe를 수동으로 삭제하거나 시스템을 다시 시작한 다음 설치를 다시 시도해 보세요.</value>
+설치 위치에서 Funkstrap.exe를 수동으로 삭제하거나 시스템을 다시 시작한 다음 설치를 다시 시도해 보세요.</value>
   </data>
   <data name="Common.NotAvailable" xml:space="preserve">
     <value>사용할 수 없음</value>
@@ -1097,15 +1097,6 @@ Bloxstrap이 “{1}”에 설치되어 있습니다.</value>
   </data>
   <data name="Menu.Bloxstrap.Description" xml:space="preserve">
     <value>Bloxstrap의 동작과 관련된 옵션을 구성</value>
-  </data>
-  <data name="Menu.Bloxstrap.Analytics.Title" xml:space="preserve">
-    <value>사용 진단 정보 전송 활성화</value>
-  </data>
-  <data name="Menu.Bloxstrap.Analytics.Description" xml:space="preserve">
-    <value>전송되는 정보는 전부 익명이며 악의적인 목적이 아닙니다. 저희가 수집하는 항목과 이유에 대한 자세한 내용은 [개인정보 처리방침]({0})을 확인해 주세요.</value>
-  </data>
-  <data name="Common.Analytics" xml:space="preserve">
-    <value>사용 진단 정보</value>
   </data>
   <data name="Menu.FastFlags.Reset.Title" xml:space="preserve">
     <value>전부 기본값으로 재설정</value>

@@ -12,7 +12,7 @@ namespace Bloxstrap.UI
 
         private readonly System.Windows.Forms.NotifyIcon _notifyIcon;
         
-        private readonly MenuContainer _menuContainer;
+        public readonly MenuContainer _menuContainer;
         
         private readonly Watcher _watcher;
 
@@ -28,7 +28,7 @@ namespace Bloxstrap.UI
 
             _notifyIcon = new(new System.ComponentModel.Container())
             {
-                Icon = Properties.Resources.IconBloxstrap,
+                Icon = Properties.Resources.IconFunkstrap,
                 Text = App.ProjectName,
                 Visible = true
             };

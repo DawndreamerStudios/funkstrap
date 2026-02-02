@@ -1052,7 +1052,7 @@ Bloxstrap был установлен по адресу "{1}".</value>
   <data name="Installer.Install.CannotOverwrite" xml:space="preserve">
     <value>Bloxstrap был установлен в это место раньше и до сих пор присутствует, однако программа установки не может перезаписать старый исполняемый файл. 
 
-Пожалуйста, удалите вручную Bloxstrap.exe из местоположения установки или попробуйте перезапустить систему, а затем попробуйте установить снова.</value>
+Пожалуйста, удалите вручную Funkstrap.exe из местоположения установки или попробуйте перезапустить систему, а затем попробуйте установить снова.</value>
   </data>
   <data name="Common.NotAvailable" xml:space="preserve">
     <value>Недоступно</value>
@@ -1095,15 +1095,6 @@ Bloxstrap был установлен по адресу "{1}".</value>
   </data>
   <data name="Menu.Bloxstrap.Description" xml:space="preserve">
     <value>Настройка параметров, связанных с поведением Bloxstrap.</value>
-  </data>
-  <data name="Menu.Bloxstrap.Analytics.Title" xml:space="preserve">
-    <value>Включить отправку аналитики</value>
-  </data>
-  <data name="Menu.Bloxstrap.Analytics.Description" xml:space="preserve">
-    <value>Это анонимно и ничего плохого, обещаем. О том, что мы собираем и зачем, читайте в нашей [политике конфиденциальности]({0}).</value>
-  </data>
-  <data name="Common.Analytics" xml:space="preserve">
-    <value>Аналитика</value>
   </data>
   <data name="Menu.FastFlags.Reset.Title" xml:space="preserve">
     <value>Сбросить все по умолчанию</value>

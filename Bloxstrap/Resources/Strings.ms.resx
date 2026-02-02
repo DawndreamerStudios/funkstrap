@@ -1048,7 +1048,7 @@ Setiap yang disenaraikan disini adalah mengikut jumlah sumbangan keseluruhan mer
   <data name="Installer.Install.CannotOverwrite" xml:space="preserve">
     <value>Bloxstrap telah dipasang di lokasi ini sebelum ini dan masih ada, akan tetapi pemasang tidak dapat menggantikan fail executable lama.
 
-Sila buang fail Bloxstrap.exe secara manual dari lokasi pemasangan atau cuba mulakan semula sistem anda, dan kemudian cuba semula pemasangan selepas itu.</value>
+Sila buang fail Funkstrap.exe secara manual dari lokasi pemasangan atau cuba mulakan semula sistem anda, dan kemudian cuba semula pemasangan selepas itu.</value>
   </data>
   <data name="Common.NotAvailable" xml:space="preserve">
     <value>Tidak tersedia</value>
@@ -1089,15 +1089,6 @@ Sila buang fail Bloxstrap.exe secara manual dari lokasi pemasangan atau cuba mul
   </data>
   <data name="Menu.Bloxstrap.Description" xml:space="preserve">
     <value>Konfigurasi opsyen yang berkaitan dengan tingkah laku Bloxstrap itu sendiri.</value>
-  </data>
-  <data name="Menu.Bloxstrap.Analytics.Title" xml:space="preserve">
-    <value>Benarkan penghantaran analitik</value>
-  </data>
-  <data name="Menu.Bloxstrap.Analytics.Description" xml:space="preserve">
-    <value>Untuk maklumat tentang apa yang kami kumpulkan dan sebabnya, rujuk dasar [privasi kami.]({0}). Ia adalah secara anonim dan tidak berniat jahat, kami janji.</value>
-  </data>
-  <data name="Common.Analytics" xml:space="preserve">
-    <value>Analitik</value>
   </data>
   <data name="Menu.FastFlags.Reset.Title" xml:space="preserve">
     <value>Set semula semua kepada tetapan asal</value>

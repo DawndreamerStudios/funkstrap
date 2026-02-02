@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Bootstrapper.AutoUpdateFailed" xml:space="preserve">
-    <value>Bloxstrap kunne ikke automatisk opdatere til version {0}. Opdater det manuelt ved at downloade og køre det fra hjemmesiden.</value>
+    <value>Funkstrap kunne ikke automatisk opdatere til version {0}. Opdater det manuelt ved at downloade og køre det fra hjemmesiden.</value>
   </data>
   <data name="Bootstrapper.ConfirmLaunch" xml:space="preserve">
     <value>Roblox kører i øjeblikket, og opstart af en anden instans vil lukke den. Er du sikker på, at du vil fortsætte med at starte?</value>
@@ -127,13 +127,13 @@
     <value>Roblox kan være nede lige nu. Se {0} for mere information.</value>
   </data>
   <data name="Dialog.Connectivity.BadConnection" xml:space="preserve">
-    <value>Der kunne ikke oprettes en forbindelse, hvilket sandsynligvis indikerer en dårlig internetforbindelse eller en firewall-blok. Hvis din forbindelse er fin, skal du sikre dig, at din antivirus ikke blokerer Bloxstrap.</value>
+    <value>Der kunne ikke oprettes en forbindelse, hvilket sandsynligvis indikerer en dårlig internetforbindelse eller en firewall-blok. Hvis din forbindelse er fin, skal du sikre dig, at din antivirus ikke blokerer Funkstrap.</value>
   </data>
   <data name="Bootstrapper.FirstRunUninstall" xml:space="preserve">
-    <value>Du skal først installere Bloxstrap før du afinstallere.</value>
+    <value>Du skal først installere Funkstrap før du afinstallere.</value>
   </data>
   <data name="Bootstrapper.NotEnoughSpace" xml:space="preserve">
-    <value>Bloxstrap har ikke nok disk rum for at downloade og installere Roblox. Vær venlig at fri op noget plads på din disk og prøv igen.</value>
+    <value>Funkstrap har ikke nok disk rum for at downloade og installere Roblox. Vær venlig at fri op noget plads på din disk og prøv igen.</value>
   </data>
   <data name="Bootstrapper.Status.ApplyingModifications" xml:space="preserve">
     <value>Tilføjer Roblox modifikationer...</value>
@@ -158,7 +158,7 @@
     <value>Opgradere {product}...</value>
   </data>
   <data name="Bootstrapper.Status.UpgradingBloxstrap" xml:space="preserve">
-    <value>Finder den nyeste Bloxstrap...</value>
+    <value>Finder den nyeste Funkstrap...</value>
   </data>
   <data name="Bootstrapper.Status.WaitingOtherInstances" xml:space="preserve">
     <value>Venter på andre instanser...</value>
@@ -172,10 +172,10 @@
     <comment>Text for style previews that use text button that says "Cancel"</comment>
   </data>
   <data name="Bootstrapper.SuccessfullyUninstalled" xml:space="preserve">
-    <value>Bloxstrap har succesfuldt afinstalleret</value>
+    <value>Funkstrap har succesfuldt afinstalleret</value>
   </data>
   <data name="Bootstrapper.Uninstall.RobloxRunning" xml:space="preserve">
-    <value>Roblox er i gang med at køre, men er nød til at være lukket før afinstalleringen af Bloxstrap. Vil du gerne lukke Roblox nu?</value>
+    <value>Roblox er i gang med at køre, men er nød til at være lukket før afinstalleringen af Funkstrap. Vil du gerne lukke Roblox nu?</value>
   </data>
   <data name="Bootstrapper.WMFNotFound" xml:space="preserve">
     <value>Roblox kræver brugen af Windows Media Foundation komponenter. Du ser ud til at mangle dem, sandsynligvis fordi du bruger en N-udgave af Windows. Installér dem først, og start derefter Roblox.</value>
@@ -279,14 +279,14 @@ Klik for mere information</value>
     <value>Forbindelsesfejl</value>
   </data>
   <data name="Dialog.Connectivity.UnableToConnect" xml:space="preserve">
-    <value>Bloxstrap kan ikke oprette forbindelse til {0}</value>
+    <value>Funkstrap kan ikke oprette forbindelse til {0}</value>
     <comment>{0} is the name of a service (i.e. Roblox, GitHub)</comment>
   </data>
   <data name="Dialog.Exception.CopyLogContents" xml:space="preserve">
     <value>Kopiér logindhold</value>
   </data>
   <data name="Dialog.Exception.Info.1" xml:space="preserve">
-    <value>En undtagelse opstod under kørsel af Bloxstrap</value>
+    <value>En undtagelse opstod under kørsel af Funkstrap</value>
   </data>
   <data name="Dialog.Exception.Info.2" xml:space="preserve">
     <value>Tjek [Bloxstrap Wiki]({0}) først for at se, om dette problem allerede er blevet løst med en rettelse.
@@ -294,7 +294,7 @@ Klik for mere information</value>
 Hvis ikke, bedes du rapportere denne undtagelse gennem et [GitHub problem]({1}) sammen med en kopi af den logfil, der blev oprettet.</value>
   </data>
   <data name="Dialog.Exception.Title" xml:space="preserve">
-    <value>Bloxstrap Undtagelse</value>
+    <value>Funkstrap Undtagelse</value>
   </data>
   <data name="Common.Custom" xml:space="preserve">
     <value>Tilpasset</value>
@@ -378,10 +378,10 @@ Hvis ikke, bedes du rapportere denne undtagelse gennem et [GitHub problem]({1}) 
     <value>Lyst</value>
   </data>
   <data name="InstallChecker.Updated" xml:space="preserve">
-    <value>Bloxstrap er blevet opgraderet til v{0}</value>
+    <value>Funkstrap er blevet opgraderet til v{0}</value>
   </data>
   <data name="InstallChecker.VersionDifferentThanInstalled" xml:space="preserve">
-    <value>Den version af Bloxstrap, du har startet, er forskellig fra den version, du har installeret i øjeblikket.
+    <value>Den version af Funkstrap, du har startet, er forskellig fra den version, du har installeret i øjeblikket.
 Vil du gerne opgradere din nuværende installerede version?</value>
   </data>
   <data name="Menu.About.Contributors" xml:space="preserve">
@@ -437,7 +437,7 @@ Vil du gerne opgradere din nuværende installerede version?</value>
     <value>Bemærk, at ikke alle dine ændringer vil gælde med det samme, før du lukker alle åbne Roblox-instanser.</value>
   </data>
   <data name="Menu.AlreadyRunning.Title" xml:space="preserve">
-    <value>Bloxstrap kører allerede</value>
+    <value>Funkstrap kører allerede</value>
   </data>
   <data name="Menu.Appearance.Bootstrapper.Description" xml:space="preserve">
     <value>Du kan få det til at se anderledes ud, retro eller bare som Roblox.</value>
@@ -464,7 +464,7 @@ Vil du gerne opgradere din nuværende installerede version?</value>
     <value>Titel</value>
   </data>
   <data name="Menu.Appearance.Description" xml:space="preserve">
-    <value>Konfigurer, hvordan Bloxstrap skal se ud.</value>
+    <value>Konfigurer, hvordan Funkstrap skal se ud.</value>
   </data>
   <data name="Menu.Appearance.Global.Theme.Title" xml:space="preserve">
     <value>Globalt tema</value>
@@ -488,10 +488,10 @@ Vil du gerne opgradere din nuværende installerede version?</value>
     <value>Udseende</value>
   </data>
   <data name="Menu.Behaviour.AutoUpdate.Description" xml:space="preserve">
-    <value>Bloxstrap vil automatisk tjekke og opdatere sig selv, når Roblox startes.</value>
+    <value>Funkstrap vil automatisk tjekke og opdatere sig selv, når Roblox startes.</value>
   </data>
   <data name="Menu.Behaviour.AutoUpdate.Title" xml:space="preserve">
-    <value>Opdater automatisk Bloxstrap</value>
+    <value>Opdater automatisk Funkstrap</value>
   </data>
   <data name="Menu.Behaviour.ConfirmLaunches.Description" xml:space="preserve">
     <value>Undgå, at lukninger af dit eksisterende spil ved et uheld starter et andet.</value>
@@ -500,7 +500,7 @@ Vil du gerne opgradere din nuværende installerede version?</value>
     <value>Bed om at bekræfte, når du starter en anden Roblox instans</value>
   </data>
   <data name="Menu.Behaviour.Description" xml:space="preserve">
-    <value>Indstil hvad Bloxstrap skal gøre, når du starter Roblox.</value>
+    <value>Indstil hvad Funkstrap skal gøre, når du starter Roblox.</value>
   </data>
   <data name="Menu.Behaviour.ForceRobloxReinstall.Description" xml:space="preserve">
     <value>Roblox vil blive installeret frisk ved næste start.</value>
@@ -602,10 +602,10 @@ Er du sikker på, at du vil fortsætte?</value>
     <value>Ikon filer</value>
   </data>
   <data name="Menu.InstallLocation.CantInstall" xml:space="preserve">
-    <value>Bloxstrap kan ikke blive installeret her. Vælg venlight en anden placering eller brug standard placeringen ved at klikke nulstil knappen.</value>
+    <value>Funkstrap kan ikke blive installeret her. Vælg venlight en anden placering eller brug standard placeringen ved at klikke nulstil knappen.</value>
   </data>
   <data name="Menu.InstallLocation.NotEmpty" xml:space="preserve">
-    <value>Mappen som du har valgt at installere Bloxstrap eksistere alleredde og er ikke tom. Det anbefales kraftigt, at Bloxstrap installeres i en selvstændig mappe.
+    <value>Mappen som du har valgt at installere Funkstrap eksistere alleredde og er ikke tom. Det anbefales kraftigt, at Funkstrap installeres i en selvstændig mappe.
 
 Ændring til følgende placering er foreslået: 
 {0}
@@ -618,7 +618,7 @@ Hvis du vælger 'Nej', vil denne advarsel blive ignoreret, og installationen for
     <value>Du skal angive en installering placering</value>
   </data>
   <data name="Menu.InstallLocation.NoWritePerms" xml:space="preserve">
-    <value>Bloxstrap har ikke skriveadgang til den valgte installationsplacering. Vælg venligst en anden placering.</value>
+    <value>Funkstrap har ikke skriveadgang til den valgte installationsplacering. Vælg venligst en anden placering.</value>
   </data>
   <data name="Menu.Integrations.ActivityTracking" xml:space="preserve">
     <value>Aktivitetssporing</value>
@@ -669,7 +669,7 @@ Hvis du vælger 'Nej', vil denne advarsel blive ignoreret, og installationen for
     <value>Afslut ikke til desktop app</value>
   </data>
   <data name="Menu.Integrations.EnableActivityTracking.Description" xml:space="preserve">
-    <value>Giver mulighed for Bloxstrap at opdage hvad Roblox spil du spiller. Visse funktioner kan kræve dette.</value>
+    <value>Giver mulighed for Funkstrap at opdage hvad Roblox spil du spiller. Visse funktioner kan kræve dette.</value>
   </data>
   <data name="Menu.Integrations.EnableActivityTracking.Title" xml:space="preserve">
     <value>Aktiver aktivitetssporing</value>
@@ -757,7 +757,7 @@ Hvis du vælger 'Nej', vil denne advarsel blive ignoreret, og installationen for
     <value>Indstillinger gemt!</value>
   </data>
   <data name="Menu.Title" xml:space="preserve">
-    <value>Bloxstrap Indstillinger</value>
+    <value>Funkstrap Indstillinger</value>
   </data>
   <data name="Dialog.LanguageSelector.Header" xml:space="preserve">
     <value>Vælg foretrukket sprog</value>
@@ -778,7 +778,7 @@ Hvis du vælger 'Nej', vil denne advarsel blive ignoreret, og installationen for
     <value>Rendering og grafik</value>
   </data>
   <data name="Menu.FastFlags.ManagerEnabled.Title" xml:space="preserve">
-    <value>Tillad Bloxstrap at administrere Hurtig Flag</value>
+    <value>Tillad Funkstrap at administrere Hurtig Flag</value>
   </data>
   <data name="Menu.FastFlags.ManagerEnabled.Description" xml:space="preserve">
     <value>Deaktivering af dette vil forhindre alt konfigureret her i at blive anvendt på Roblox.</value>
@@ -802,7 +802,7 @@ Hvis du vælger 'Nej', vil denne advarsel blive ignoreret, og installationen for
     <value>Niveau 3 (højeste)</value>
   </data>
   <data name="Dialog.Connectivity.UnableToDownload" xml:space="preserve">
-    <value>Bloxstrap kunne ikke downloade Roblox</value>
+    <value>Funkstrap kunne ikke downloade Roblox</value>
   </data>
   <data name="Dialog.Connectivity.UnableToDownloadReason" xml:space="preserve">
     <value>Roblox kan ikke downloades på nuværende tidspunkt. Læs venligst følgende hjælpeside for mere information: {0}</value>
@@ -823,7 +823,7 @@ Hvis du vælger 'Nej', vil denne advarsel blive ignoreret, og installationen for
     <value>Indtastningen for '{0}' er ikke gyldig, da værdien skal være et tal.</value>
   </data>
   <data name="Logger.NoWriteMode" xml:space="preserve">
-    <value>Der vil ikke blive skrevet en logfil for denne opstart, da Bloxstrap ikke kan skrive til mappen på '{0}'.</value>
+    <value>Der vil ikke blive skrevet en logfil for denne opstart, da Funkstrap ikke kan skrive til mappen på '{0}'.</value>
   </data>
   <data name="Common.Default" xml:space="preserve">
     <value>Standard</value>
@@ -838,7 +838,7 @@ Hvis du vælger 'Nej', vil denne advarsel blive ignoreret, og installationen for
     <value>Indtastningen for '{0}' er ikke gyldig, da stedfilteret ikke er formateret korrekt.</value>
   </data>
   <data name="Installer.Title" xml:space="preserve">
-    <value>Bloxstrap Installer</value>
+    <value>Funkstrap Installer</value>
   </data>
   <data name="Installer.Welcome.Title" xml:space="preserve">
     <value>Velkommen</value>
@@ -857,18 +857,18 @@ Hvis du vælger 'Nej', vil denne advarsel blive ignoreret, og installationen for
     <value>Næste</value>
   </data>
   <data name="Installer.Welcome.MainText" xml:space="preserve">
-    <value>Tak fordi du har downloadet Bloxstrap.
+    <value>Tak fordi du har downloadet Funkstrap.
 
-De eneste officielle websteder, hvor du kan downloade Bloxstrap fra, er {0} og {1}, så sørg for at verificere, at du har hentet det fra en officiel kilde.
+De eneste officielle websteder, hvor du kan downloade Funkstrap fra, er {0} og {1}, så sørg for at verificere, at du har hentet det fra en officiel kilde.
 
-Denne installationsproces vil være hurtig og enkel, og du vil kunne konfigurere alle Bloxstrap's indstillinger efter installationen.</value>
+Denne installationsproces vil være hurtig og enkel, og du vil kunne konfigurere alle Funkstrap's indstillinger efter installationen.</value>
     <comment>{0} and {1} are URLs</comment>
   </data>
   <data name="Installer.Welcome.NextToContinue" xml:space="preserve">
     <value>Klik 'Næste' for at fortsætte.</value>
   </data>
   <data name="Installer.Welcome.UpdateNotice" xml:space="preserve">
-    <value>Du forsøger at installere version {0} af Bloxstrap, men den nyeste tilgængelige version er {1}. Vil du downloade den?</value>
+    <value>Du forsøger at installere version {0} af Funkstrap, men den nyeste tilgængelige version er {1}. Vil du downloade den?</value>
   </data>
   <data name="Installer.Install.Location.Title" xml:space="preserve">
     <value>Vælg hvor der skal installeres</value>
@@ -889,16 +889,16 @@ Denne installationsproces vil være hurtig og enkel, og du vil kunne konfigurere
     <value>Start Menu ikon</value>
   </data>
   <data name="Installer.Completion.Text" xml:space="preserve">
-    <value>Bloxstrap er blevet installeret med succes.
+    <value>Funkstrap er blevet installeret med succes.
 
-Roblox er endnu ikke blevet installeret, det vil ske, når du starter det første gang med Bloxstrap. Før du gør det, kan det dog være en god idé at konfigurere Bloxstrap's indstillinger først.
+Roblox er endnu ikke blevet installeret, det vil ske, når du starter det første gang med Funkstrap. Før du gør det, kan det dog være en god idé at konfigurere Funkstrap's indstillinger først.
 
-Undgå også at bruge "Roblox Player"-genvejen til at starte Roblox, da Bloxstrap ikke vil starte sammen med Roblox. Hvis du ikke ser Bloxstrap, når du starter fra websiden, så start blot Roblox med Bloxstrap én gang fra skrivebordet for at løse problemet.
+Undgå også at bruge "Roblox Player"-genvejen til at starte Roblox, da Funkstrap ikke vil starte sammen med Roblox. Hvis du ikke ser Funkstrap, når du starter fra websiden, så start blot Roblox med Funkstrap én gang fra skrivebordet for at løse problemet.
 
 Hvad vil du gerne gøre?</value>
   </data>
   <data name="Installer.Completion.Settings.Title" xml:space="preserve">
-    <value>Konfigurer Bloxstrap's indstillinger</value>
+    <value>Konfigurer Funkstrap's indstillinger</value>
   </data>
   <data name="Installer.Completion.Settings.Description" xml:space="preserve">
     <value>Justér alle de funktioner, det har at tilbyde</value>
@@ -910,22 +910,22 @@ Hvad vil du gerne gøre?</value>
     <value>Vil sende dig videre til desktop-appen, når alt er færdigt.</value>
   </data>
   <data name="Uninstaller.Title" xml:space="preserve">
-    <value>Afinstallere Bloxstrap</value>
+    <value>Afinstallere Funkstrap</value>
   </data>
   <data name="Uninstaller.Text" xml:space="preserve">
-    <value>Afinstallering vil fjerne Bloxstrap fra dit system, og automatisk omkonfigurere standard Roblox launcher hvis det stadig er installeret.
+    <value>Afinstallering vil fjerne Funkstrap fra dit system, og automatisk omkonfigurere standard Roblox launcher hvis det stadig er installeret.
 
 Hvis du afinstallerer eller geninstallerer fordi du har problemer med Roblox, så læs [denne hjælpeside] ({0}) første.
 
-Afinstallationsprocessen kan muligvis ikke rydde op i sig selv, så du kan have brug for manuelt rydde op resterende filer, hvor Bloxstrap blev installeret.
+Afinstallationsprocessen kan muligvis ikke rydde op i sig selv, så du kan have brug for manuelt rydde op resterende filer, hvor Funkstrap blev installeret.
 
-Bloxstrap blev installeret ved "{1}".</value>
+Funkstrap blev installeret ved "{1}".</value>
   </data>
   <data name="Uninstaller.KeepData.Label" xml:space="preserve">
     <value>Behold mine indstillinger og mods</value>
   </data>
   <data name="Uninstaller.KeepData.Description" xml:space="preserve">
-    <value>De vil blive bevaret, hvor Bloxstrap blev installeret, og vil automatisk blive gendannet på en geninstallation.</value>
+    <value>De vil blive bevaret, hvor Funkstrap blev installeret, og vil automatisk blive gendannet på en geninstallation.</value>
   </data>
   <data name="Uninstaller.Uninstall" xml:space="preserve">
     <value>Afinstaller</value>
@@ -946,7 +946,7 @@ Bloxstrap blev installeret ved "{1}".</value>
     <value>Du har i øjeblikket ikke WebView2 runtime installeret. Nogle Roblox funktioner vil ikke fungere korrekt uden det, såsom desktop app. Vil du downloade det nu?</value>
   </data>
   <data name="Dialog.CannotCreateShortcuts" xml:space="preserve">
-    <value>Bloxstrap kunne ikke oprette genveje til Desktop og Start menuen. Prøv at oprette dem senere gennem indstillingerne.</value>
+    <value>Funkstrap kunne ikke oprette genveje til Desktop og Start menuen. Prøv at oprette dem senere gennem indstillingerne.</value>
   </data>
   <data name="Dialog.Exception.Info.2.Alt" xml:space="preserve">
     <value>Tjek [Bloxstrap Wiki]({0}) først for at se, om dette problem allerede er blevet løst med en rettelse.
@@ -958,7 +958,7 @@ Hvis ikke, bedes du at rapportere denne undtagelse til vedligeholderne af denne 
     <value>Disse er generelle genveje, der viser en multi-valgs startmenu. Genveje for specifikke funktioner kan oprettes senere i indstillingerne.</value>
   </data>
   <data name="Menu.Shortcuts.Description" xml:space="preserve">
-    <value>Konfigurer hvordan Bloxstrap let kan startes.</value>
+    <value>Konfigurer hvordan Funkstrap let kan startes.</value>
   </data>
   <data name="Menu.Shortcuts.General.Title" xml:space="preserve">
     <value>Generelt</value>
@@ -988,7 +988,7 @@ Hvis ikke, bedes du at rapportere denne undtagelse til vedligeholderne af denne 
     <value>Vent venligst på at afinstallationen er færdig.</value>
   </data>
   <data name="About.Title" xml:space="preserve">
-    <value>Om Bloxstrap</value>
+    <value>Om Funkstrap</value>
   </data>
   <data name="About.Licenses.Title" xml:space="preserve">
     <value>Licenser</value>
@@ -1001,7 +1001,7 @@ Hvis ikke, bedes du at rapportere denne undtagelse til vedligeholderne af denne 
     <value>Du har ugemte ændringer. Er du sikker på, at du vil lukke uden at gemme?</value>
   </data>
   <data name="InstallChecker.VersionLessThanInstalled" xml:space="preserve">
-    <value>Den version af Bloxstrap, du har kørt, er ældre end den version, du i øjeblikket har installeret.
+    <value>Den version af Funkstrap, du har kørt, er ældre end den version, du i øjeblikket har installeret.
 Problemer kan forekomme og dine indstillinger kan blive ændret. En geninstallation anbefales.
 Er du sikker på, at du vil fortsætte?</value>
   </data>
@@ -1049,12 +1049,12 @@ Hver person her er rangeret efter deres samlede løfte.</value>
     <value>Ved denne opstart vil Roblox ikke blive tjekket for opdateringer, og ændringer til mods vil ikke blive anvendt.</value>
   </data>
   <data name="Dialog.Connectivity.RobloxUpgradeNeeded" xml:space="preserve">
-    <value>Da Roblox skal installeres eller opgraderes, kan Bloxstrap ikke fortsætte.</value>
+    <value>Da Roblox skal installeres eller opgraderes, kan Funkstrap ikke fortsætte.</value>
   </data>
   <data name="Installer.Install.CannotOverwrite" xml:space="preserve">
-    <value>Bloxstrap er blevet installeret på denne placering før og er stadig til stede, men installationsprogrammet kan ikke overskrive den gamle eksekverbare. 
+    <value>Funkstrap er blevet installeret på denne placering før og er stadig til stede, men installationsprogrammet kan ikke overskrive den gamle eksekverbare. 
 
-Slet venligst Bloxstrap.exe manuelt fra installationsplaceringen eller prøv at genstarte dit system, og prøv derefter at genstarte installationen bagefter.</value>
+Slet venligst Funkstrap.exe manuelt fra installationsplaceringen eller prøv at genstarte dit system, og prøv derefter at genstarte installationen bagefter.</value>
   </data>
   <data name="Common.NotAvailable" xml:space="preserve">
     <value>Ikke tilgængelig</value>
@@ -1066,7 +1066,7 @@ Slet venligst Bloxstrap.exe manuelt fra installationsplaceringen eller prøv at 
     <value>Konfigurere applikationsparametre såsom DPI skalering adfærd og [fuldskærm optimeringer]({0}).</value>
   </data>
   <data name="Common.RobloxNotInstalled" xml:space="preserve">
-    <value>Roblox er endnu ikke installeret. Start Roblox ved hjælp af Bloxstrap mindst én gang før du forsøger at bruge denne indstilling.</value>
+    <value>Roblox er endnu ikke installeret. Start Roblox ved hjælp af Funkstrap mindst én gang før du forsøger at bruge denne indstilling.</value>
   </data>
   <data name="Installer.ShouldCancel" xml:space="preserve">
     <value>Er du sikker på, at du vil annullere installationen?</value>
@@ -1084,10 +1084,10 @@ Slet venligst Bloxstrap.exe manuelt fra installationsplaceringen eller prøv at 
     <value>Udpak Roblox ikoner til mappe</value>
   </data>
   <data name="Menu.Shortcuts.ExtractIcons.Description" xml:space="preserve">
-    <value>Tillader dig at bruge Bloxstraps sortiment af Roblox-ikoner til dine genveje. [Se hvordan.]({0})</value>
+    <value>Tillader dig at bruge Funkstraps sortiment af Roblox-ikoner til dine genveje. [Se hvordan.]({0})</value>
   </data>
   <data name="Dialog.RegistryWriteError" xml:space="preserve">
-    <value>Bloxstrap er ude af stand til at skrive til registreringsdatabasen i Windows. En antivirus vil sandsynligvis forstyrre og forårsage problemer. Tjek venligst for at sikre, at der ikke er noget, der vil begrænse Bloxstrap's operation.</value>
+    <value>Funkstrap er ude af stand til at skrive til registreringsdatabasen i Windows. En antivirus vil sandsynligvis forstyrre og forårsage problemer. Tjek venligst for at sikre, at der ikke er noget, der vil begrænse Funkstrap's operation.</value>
   </data>
   <data name="About.Supporters.Monthly" xml:space="preserve">
     <value>Månedligt</value>
@@ -1096,16 +1096,7 @@ Slet venligst Bloxstrap.exe manuelt fra installationsplaceringen eller prøv at 
     <value>Enkeltstående</value>
   </data>
   <data name="Menu.Bloxstrap.Description" xml:space="preserve">
-    <value>Konfigurer indstillinger relateret til Bloxstraps opførsel.</value>
-  </data>
-  <data name="Menu.Bloxstrap.Analytics.Title" xml:space="preserve">
-    <value>Aktiver afsendelse af analyser</value>
-  </data>
-  <data name="Menu.Bloxstrap.Analytics.Description" xml:space="preserve">
-    <value>Det er anonymt, og der er intet ondt, vi lover. For indsigt i, hvad vi indsamler og hvorfor, se vores [privatlivspolitik]({0}).</value>
-  </data>
-  <data name="Common.Analytics" xml:space="preserve">
-    <value>Analyse</value>
+    <value>Konfigurer indstillinger relateret til Funkstraps opførsel.</value>
   </data>
   <data name="Menu.FastFlags.Reset.Title" xml:space="preserve">
     <value>Nulstil alt til standardindstillinger</value>
@@ -1125,7 +1116,7 @@ Når den er aktiveret, vil den automatisk starte Roblox efter lukning af Indstil
 Vil du aktivere testtilstand?</value>
   </data>
   <data name="About.Translators.Description" xml:space="preserve">
-    <value>Alle Bloxstraps oversættelser er crowdsourced via [Crowdin]({0}). Alle, der er nævnt her, er personer, der generøst har brugt deres tid og kræfter på at hjælpe med at lokalisere Bloxstrap. En kæmpe tak til alle her!</value>
+    <value>Alle Funkstraps oversættelser er crowdsourced via [Crowdin]({0}). Alle, der er nævnt her, er personer, der generøst har brugt deres tid og kræfter på at hjælpe med at lokalisere Funkstrap. En kæmpe tak til alle her!</value>
   </data>
   <data name="Common.Navigation.Install" xml:space="preserve">
     <value>Installér</value>
@@ -1145,7 +1136,7 @@ Vil du aktivere testtilstand?</value>
     <value>Tilpasset</value>
   </data>
   <data name="Bootstrapper.FilesInUse" xml:space="preserve">
-    <value>Bloxstrap forsøgte at opgradere Roblox, men kan ikke fordi Roblox' filer stadig er i brug.
+    <value>Funkstrap forsøgte at opgradere Roblox, men kan ikke fordi Roblox' filer stadig er i brug.
 
 Luk alle programmer, der kan bruge Roblox's filer, og relancering.</value>
     <comment>This is *not* for when Roblox is still running when trying to upgrade. This applies to files being open (i.e. image assets)</comment>
@@ -1156,7 +1147,7 @@ Luk alle programmer, der kan bruge Roblox's filer, og relancering.</value>
   </data>
   <data name="Common.Export" xml:space="preserve">
     <value>Eksport</value>
-    <comment>Currently used under the "Bloxstrap" settings tab for the button to export diagnostic data</comment>
+    <comment>Currently used under the "Funkstrap" settings tab for the button to export diagnostic data</comment>
   </data>
   <data name="Menu.Bloxstrap.ExportData.Title" xml:space="preserve">
     <value>Eksport diagnostiske data</value>
@@ -1165,11 +1156,11 @@ Luk alle programmer, der kan bruge Roblox's filer, og relancering.</value>
     <value>Saml oplysninger, der kan uploades online for at fejlfinde et problem, du har.</value>
   </data>
   <data name="Menu.Bloxstrap.ExportData.ExportConfig" xml:space="preserve">
-    <value>Bloxstrap konfiguration</value>
+    <value>Funkstrap konfiguration</value>
     <comment>Label that appears next to a checkbox</comment>
   </data>
   <data name="Menu.Bloxstrap.ExportData.ExportLogs" xml:space="preserve">
-    <value>Alle Bloxstrap logs</value>
+    <value>Alle Funkstrap logs</value>
     <comment>Label that appears next to a checkbox</comment>
   </data>
   <data name="App.OSDeprecation.Win7_81" xml:space="preserve">

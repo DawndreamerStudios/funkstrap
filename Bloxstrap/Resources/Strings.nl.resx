@@ -1053,7 +1053,7 @@ Elke persoon hier is gerangschikt op basis van hun totale bijdrage.</value>
   <data name="Installer.Install.CannotOverwrite" xml:space="preserve">
     <value>Bloxstrap is geïnstalleerd op deze locatie en is nog steeds aanwezig, maar het installatieprogramma kan het oude uitvoerbare niet overschrijven. 
 
-Verwijder handmatig Bloxstrap.EXE van de installatielocatie of probeer je systeem opnieuw op te starten, en probeer daarna opnieuw te installeren.</value>
+Verwijder handmatig Funkstrap.exe van de installatielocatie of probeer je systeem opnieuw op te starten, en probeer daarna opnieuw te installeren.</value>
   </data>
   <data name="Common.NotAvailable" xml:space="preserve">
     <value>Niet beschikbaar</value>
@@ -1096,15 +1096,6 @@ Verwijder handmatig Bloxstrap.EXE van de installatielocatie of probeer je systee
   </data>
   <data name="Menu.Bloxstrap.Description" xml:space="preserve">
     <value>Configureer opties gerelateerd aan het gedrag van Bloxstrap zelf.</value>
-  </data>
-  <data name="Menu.Bloxstrap.Analytics.Title" xml:space="preserve">
-    <value>Het verzenden van analytics inschakelen</value>
-  </data>
-  <data name="Menu.Bloxstrap.Analytics.Description" xml:space="preserve">
-    <value>Het is anoniem en niets slecht, beloofd. Voor inzicht in wat we verzamelen en waarom, zie ons ({0}).</value>
-  </data>
-  <data name="Common.Analytics" xml:space="preserve">
-    <value>Statistieken</value>
   </data>
   <data name="Menu.FastFlags.Reset.Title" xml:space="preserve">
     <value>Alle standaard instellingen herstellen</value>

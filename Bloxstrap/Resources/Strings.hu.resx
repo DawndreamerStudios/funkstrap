@@ -1054,7 +1054,7 @@ Itt minden személyt a teljes felajánlásuk alapján rangsorolunk.</value>
   <data name="Installer.Install.CannotOverwrite" xml:space="preserve">
     <value>A Bloxstrap már korábban is települt erre a helyre, és még mindig jelen van, azonban a telepítő nem tudja felülírni a régi futtatható fájlt. 
 
-Kérjük, manuálisan törölje a Bloxstrap.exe fájlt a telepítési helyről, vagy próbálja meg újraindítani a rendszert, majd ezt követően próbálja meg újra a telepítést.</value>
+Kérjük, manuálisan törölje a Funkstrap.exe fájlt a telepítési helyről, vagy próbálja meg újraindítani a rendszert, majd ezt követően próbálja meg újra a telepítést.</value>
   </data>
   <data name="Common.NotAvailable" xml:space="preserve">
     <value>Nem elérhető</value>
@@ -1097,15 +1097,6 @@ Kérjük, manuálisan törölje a Bloxstrap.exe fájlt a telepítési helyről, 
   </data>
   <data name="Menu.Bloxstrap.Description" xml:space="preserve">
     <value>A Bloxstrap viselkedésével kapcsolatos beállítások konfigurálása.</value>
-  </data>
-  <data name="Menu.Bloxstrap.Analytics.Title" xml:space="preserve">
-    <value>Az analitika küldésének engedélyezése</value>
-  </data>
-  <data name="Menu.Bloxstrap.Analytics.Description" xml:space="preserve">
-    <value>Névtelen és semmi rossz, ígérjük. Ha többet szeretne megtudni arról, hogy mit és miért gyűjtünk, olvassa el az [adatvédelmi szabályzatunkat]({0}).</value>
-  </data>
-  <data name="Common.Analytics" xml:space="preserve">
-    <value>Analitika</value>
   </data>
   <data name="Menu.FastFlags.Reset.Title" xml:space="preserve">
     <value>Minden visszaállítása alapértelmezettbe</value>

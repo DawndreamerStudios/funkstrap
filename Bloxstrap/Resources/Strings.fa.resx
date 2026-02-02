@@ -1053,7 +1053,7 @@
   <data name="Installer.Install.CannotOverwrite" xml:space="preserve">
     <value>بلاکسترپ قبلا در این مسیر نصب شده و هنوز در این مسیر وجود دارد، اما نصب کننده نمیتواند فایل اجرایی قدیمی را بازنویسی کند.
 
-لطفا به طور دستی "Bloxstrap.exe" را از مسیر نصب پاک کنید و یا سیستم خود را راه‌اندازی مجدد کنید، و بعد از آن دوباره نصب کننده را اجرا کنید.</value>
+لطفا به طور دستی "Funkstrap.exe" را از مسیر نصب پاک کنید و یا سیستم خود را راه‌اندازی مجدد کنید، و بعد از آن دوباره نصب کننده را اجرا کنید.</value>
   </data>
   <data name="Common.NotAvailable" xml:space="preserve">
     <value>در دسترس نیست</value>
@@ -1096,15 +1096,6 @@
   </data>
   <data name="Menu.Bloxstrap.Description" xml:space="preserve">
     <value>پیکربندی تنظیماتی که به رفتار خود بلاکسترپ مربوط است.</value>
-  </data>
-  <data name="Menu.Bloxstrap.Analytics.Title" xml:space="preserve">
-    <value>فعال سازی ارسال تجزیه و تحلیل ها</value>
-  </data>
-  <data name="Menu.Bloxstrap.Analytics.Description" xml:space="preserve">
-    <value>این کار ناشناس است و هیچ چیز بدی نیست، قول میدهیم. برای اطلاعات بیشتر در مورد آنچه که جمع‌آوری می کنیم و چرا، به [خط مشی رازداری]({0}) ما مراجعه کنید.</value>
-  </data>
-  <data name="Common.Analytics" xml:space="preserve">
-    <value>تجزیه و تحلیل ها</value>
   </data>
   <data name="Menu.FastFlags.Reset.Title" xml:space="preserve">
     <value>همه چیز را به حالت پیش فرض برگردانید</value>

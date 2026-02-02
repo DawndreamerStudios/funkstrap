@@ -1054,7 +1054,7 @@ Bloxstrap 安裝在 "{1}"。</value>
   <data name="Installer.Install.CannotOverwrite" xml:space="preserve">
     <value>Bloxstrap 之前已安裝到此位置並且仍然存在，但安裝程式無法覆蓋舊的可執行文件。
 
-請手動刪除安裝位置中的 Bloxstrap.exe，或者嘗試重啟系統，然後再嘗試重新安裝。</value>
+請手動刪除安裝位置中的 Funkstrap.exe，或者嘗試重啟系統，然後再嘗試重新安裝。</value>
   </data>
   <data name="Common.NotAvailable" xml:space="preserve">
     <value>無法使用</value>
@@ -1098,15 +1098,6 @@ Bloxstrap 安裝在 "{1}"。</value>
   </data>
   <data name="Menu.Bloxstrap.Description" xml:space="preserve">
     <value>調整 Bloxstrap 自身行為相關的選項。</value>
-  </data>
-  <data name="Menu.Bloxstrap.Analytics.Title" xml:space="preserve">
-    <value>允許 Bloxstrap 對數據進行分析</value>
-  </data>
-  <data name="Menu.Bloxstrap.Analytics.Description" xml:space="preserve">
-    <value>這是匿名的，絕對沒有像政府一樣幹走您的個人資料。我們收集的內容和其原因，請參考我們的[隱私政策]({0})。</value>
-  </data>
-  <data name="Common.Analytics" xml:space="preserve">
-    <value>數據分析</value>
   </data>
   <data name="Menu.FastFlags.Reset.Title" xml:space="preserve">
     <value>將所有設定重設為預設值</value>

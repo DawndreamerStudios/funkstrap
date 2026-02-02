@@ -36,7 +36,7 @@
         public event EventHandler? OnAppClose;
         public event EventHandler<Message>? OnRPCMessage;
 
-        private DateTime LastRPCRequest;
+        public Watcher watcher = null!;
 
         public string LogLocation = null!;
 
@@ -50,9 +50,13 @@
         public List<ActivityData> History = new();
 
         public bool IsDisposed = false;
+        public int defaultDelay = 1000;
+        public int windowLogDelay = 250;
+        public int delay = 1000;
 
-        public ActivityWatcher(string? logFile = null)
+        public ActivityWatcher(Watcher watch, string? logFile = null)
         {
+            watcher = watch;
             if (!String.IsNullOrEmpty(logFile))
                 LogLocation = logFile;
         }
@@ -71,6 +75,9 @@
             // - check for leaves/disconnects with 'Time to disconnect replication data: {{TIME}}' entry
             //
             // we'll tail the log file continuously, monitoring for any log entries that we need to determine the current game activity
+
+            delay = defaultDelay;
+            windowLogDelay = 1000/(App.Settings.Prop.WindowReadFPS<1 ? 1 : App.Settings.Prop.WindowReadFPS); // maybe remove this one since it can be changed in runtime now
             
             FileInfo logFileInfo;
 
@@ -122,7 +129,7 @@
                 string? log = await streamReader.ReadLineAsync();
 
                 if (log is null)
-                    await Task.Delay(1000);
+                    await Task.Delay(delay);
                 else
                     ReadLogEntry(log);
             }
@@ -328,12 +335,6 @@
 
                     App.Logger.WriteLine(LOG_IDENT, $"Received message: '{messagePlain}'");
 
-                    if ((DateTime.Now - LastRPCRequest).TotalSeconds <= 1)
-                    {
-                        App.Logger.WriteLine(LOG_IDENT, "Dropping message as ratelimit has been hit");
-                        return;
-                    }
-
                     try
                     {
                         message = JsonSerializer.Deserialize<Message>(messagePlain);
@@ -386,8 +387,6 @@
                     }
 
                     OnRPCMessage?.Invoke(this, message);
-
-                    LastRPCRequest = DateTime.Now;
                 }
             }
         }

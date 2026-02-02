@@ -2,6 +2,8 @@
 {
     public enum BootstrapperIcon
     {
+        [EnumName(StaticName = "Funkstrap")]
+        IconFunkstrap,
         [EnumName(StaticName = "Bloxstrap")]
         IconBloxstrap,
         [EnumName(StaticName = "2008")]

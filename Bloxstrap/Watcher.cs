@@ -2,6 +2,9 @@
 using Bloxstrap.Integrations;
 using Bloxstrap.Models;
 
+using System.Windows;
+using Microsoft.Win32;
+
 namespace Bloxstrap
 {
     public class Watcher : IDisposable
@@ -10,11 +13,15 @@ namespace Bloxstrap
 
         private readonly WatcherData? _watcherData;
         
-        private readonly NotifyIconWrapper? _notifyIcon;
+        public readonly NotifyIconWrapper? _notifyIcon;
+
+        public static string? robloxPath;
 
         public readonly ActivityWatcher? ActivityWatcher;
 
         public readonly DiscordRichPresence? RichPresence;
+
+        public readonly WindowController? WindowController;
 
         public Watcher()
         {
@@ -50,9 +57,11 @@ namespace Bloxstrap
             if (_watcherData is null)
                 throw new Exception("Watcher data is invalid");
 
+            robloxPath = _watcherData.RobloxDirectory;
+
             if (App.Settings.Prop.EnableActivityTracking)
             {
-                ActivityWatcher = new(_watcherData.LogFile);
+                ActivityWatcher = new(this, _watcherData.LogFile);
 
                 if (App.Settings.Prop.UseDisableAppPatch)
                 {
@@ -66,6 +75,9 @@ namespace Bloxstrap
 
                 if (App.Settings.Prop.UseDiscordRichPresence)
                     RichPresence = new(ActivityWatcher);
+
+                if (App.Settings.Prop.UseWindowControl) 
+                    WindowController = new(ActivityWatcher);
             }
 
             _notifyIcon = new(this);
@@ -127,6 +139,7 @@ namespace Bloxstrap
 
             _notifyIcon?.Dispose();
             RichPresence?.Dispose();
+            WindowController?.Dispose();
 
             GC.SuppressFinalize(this);
         }

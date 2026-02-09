@@ -65,7 +65,7 @@ namespace Bloxstrap.Models.Entities
             {
                 string desc = string.Format(
                     "{0} • {1} {2} {3}", 
-                    UniverseDetails?.Data.Creator.Name,
+                    UniverseDetails?.Creator?.Name ?? "Unknown",
                     TimeJoined.ToString("t"), 
                     Locale.CurrentCulture.Name.StartsWith("ja") ? '~' : '-',
                     TimeLeft?.ToString("t")

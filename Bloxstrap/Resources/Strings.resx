@@ -709,7 +709,7 @@ Selecting 'No' will ignore this warning and continue installation.</value>
     <value>Allow window control</value>
   </data>
   <data name="Menu.Integrations.WindowControl.Description" xml:space="preserve">
-    <value>Allows games that you give permission to control the Roblox window. Note: Makes the game aware that you are using Funkstrap.</value>
+    <value>Allows games that you give permission to control the Roblox window. Note: Makes the game aware that you are using Funkstrap. We recommend enabling the [Windows Game Mode]({0}) in order to not drop inputs</value>
   </data>
    <data name="Menu.Integrations.MoveWindowControl.Title" xml:space="preserve">
     <value>Window movement</value>

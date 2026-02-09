@@ -256,11 +256,8 @@ namespace Bloxstrap.UI.ViewModels.Settings
             {
                 Name = Strings.Menu_Integrations_WindowUniversesList_LoadingUniverse,
                 Id = -1,
-                Creator = new GameCreator()
-                {
-                    Name = ""
-                }
-            }
+            },
+            ID = -1
         };
 
         private UniverseDetails FailedUniverseDetails = new()
@@ -272,11 +269,8 @@ namespace Bloxstrap.UI.ViewModels.Settings
             Data = new() {
                 Name = Strings.Menu_Integrations_WindowUniversesList_FailedUniverseLoad,
                 Id = -1,
-                Creator = new GameCreator()
-                {
-                    Name = ""
-                }
-            }
+            },
+            ID = -1
         };
 
         public UniverseDetails? SelectedUniverseDetails { get; set; }

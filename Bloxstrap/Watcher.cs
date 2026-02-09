@@ -37,17 +37,36 @@ namespace Bloxstrap
 
             if (String.IsNullOrEmpty(watcherDataArg))
             {
-#if DEBUG
-                string path = new RobloxPlayerData().ExecutablePath;
+//#if DEBUG
+                RobloxPlayerData playerData = new();
+                string path = playerData.ExecutablePath;
                 if (!File.Exists(path))
                     throw new ApplicationException("Roblox player is not been installed");
 
                 using var gameClientProcess = Process.Start(path);
 
-                _watcherData = new() { ProcessId = gameClientProcess.Id };
-#else
-                throw new Exception("Watcher data not specified");
-#endif
+                if (App.Settings.Prop.EnableActivityTracking && App.Settings.Prop.UseWindowControl)
+                {
+                    var idsPath = Path.Combine(playerData.Directory, "content\\bloxstrap");
+
+                    // make sure it exists
+                    Directory.CreateDirectory(idsPath);
+
+                    var directory = new DirectoryInfo(idsPath);
+
+                    // clear
+                    foreach (FileInfo file in directory.GetFiles()) file.Delete();
+                    foreach (DirectoryInfo subDirectory in directory.GetDirectories()) subDirectory.Delete(true);
+
+                    System.Drawing.Bitmap enabledBitmap = new System.Drawing.Bitmap(1, 1);
+                    enabledBitmap.SetPixel(0, 0, System.Drawing.Color.White);
+                    enabledBitmap.Save(Path.Combine(idsPath, $"enabled.png"), System.Drawing.Imaging.ImageFormat.Png);
+                }
+
+                _watcherData = new() { ProcessId = gameClientProcess.Id, RobloxDirectory = playerData.Directory};
+//#else
+                //throw new Exception("Watcher data not specified");
+//#endif
             }
             else
             {

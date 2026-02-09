@@ -400,7 +400,7 @@ namespace Bloxstrap.Integrations
             {
                 ServerType.Private => "In a private server",
                 ServerType.Reserved => "In a reserved server",
-                _ => $"by {universeDetails.Data.Creator.Name}" + (universeDetails.Data.Creator.HasVerifiedBadge ? " ☑️" : ""),
+                _ => $"by {universeDetails.Creator?.Name ?? "Unknown"}" + ((universeDetails.Creator?.HasVerifiedBadge ?? false) ? " ☑️" : ""),
             };
 
             string universeName = universeDetails.Data.Name;

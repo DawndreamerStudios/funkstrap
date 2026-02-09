@@ -563,6 +563,7 @@ namespace Bloxstrap
                 Arguments = _launchCommandLine,
                 WorkingDirectory = AppData.Directory
             };
+            WindowsRegistry.DisableFullscreenOptimizations(AppData.ExecutablePath);
 
             if (_launchMode == LaunchMode.Player && ShouldRunAsAdmin())
             {
@@ -919,6 +920,8 @@ namespace Bloxstrap
                     // we dont want to accidentally delete the files of a running roblox instance
                     if (!TryDeleteRobloxInDirectory(dir))
                         continue;
+
+                    WindowsRegistry.EnableFullscreenOptimizations(Path.Join(dir, "RobloxPlayerBeta.exe"));
 
                     try
                     {

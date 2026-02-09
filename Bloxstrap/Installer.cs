@@ -8,7 +8,7 @@ namespace Bloxstrap
         /// <summary>
         /// Should the release notes open when updating to this version?
         /// </summary>
-        private const bool OpenReleaseNotes = true;
+        private const bool OpenReleaseNotes = false;
         /// <summary>
         /// Which version's release notes to open
         /// Leave blank to use the current version

@@ -340,9 +340,21 @@ function BloxstrapRPC.ResetTransparency()
 	prevTransWinData.transparency = 1;
 end
 
-for _,func in {"SendNotification","ShowPopup","RemoveWindows","CreateWindow","SetWindowDefault","ShowWindow","SetWindowColor"} do
+function BloxstrapRPC.SetWindowBorderless(status: boolean)
+	if status == nil then
+		status = false;
+	end
+
+	BloxstrapRPC.SendMessage("SetWindowBorderless", {enabled = status})
+end
+
+function BloxstrapRPC.SendNotification(title:string, caption:string, duration:number)
+	BloxstrapRPC.SendMessage("SendNotification", {title = title, caption = caption, duration = duration})
+end
+
+for _,func in {"ShowPopup","RemoveWindows","CreateWindow","SetWindowDefault","ShowWindow","SetWindowColor"} do
 	BloxstrapRPC[func] = function()
-		warn("THIS FUNCTION DOES NOT WORK OUTSIDE OF A FORK OF THE FORK!!!!")
+		warn(`[BloxstrapRPC :: {func}] This function is not functional yet`)
 	end
 end
 

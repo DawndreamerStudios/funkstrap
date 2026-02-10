@@ -66,7 +66,7 @@ namespace Bloxstrap.UI.Elements.Dialogs
                 Close();
             };
 
-            SystemSounds.Hand.Play();
+            SystemSounds.Exclamation.Play();
 
             Loaded += delegate
             {

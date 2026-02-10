@@ -1,4 +1,5 @@
-﻿using System.Runtime.InteropServices;
+﻿using Bloxstrap.Models.BloxstrapRPC;
+using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using Message = Bloxstrap.Models.BloxstrapRPC.Message;
 public struct WindowRect {
@@ -25,6 +26,45 @@ namespace Bloxstrap.Integrations
         public const long WS_EX_TRANSPARENT = 0x00000020L; // window is considered fully transparent
         public const uint LWA_COLORKEY = 0x00000001; // window uses chroma key for transparency
         public const uint LWA_ALPHA = 0x00000002; // window uses alpha for transparency
+        public const long WS_BORDER = 0x00800000L;       // standard window border
+        public const long WS_CAPTION = 0x00C00000L;     // title bar + border
+        private const int GWL_STYLE = -16;
+        private const long WS_THICKFRAME = 0x00040000L; // resizable frame
+        private const long WS_SYSMENU = 0x00080000L;
+        private const long WS_MINIMIZEBOX = 0x00020000L;
+        private const long WS_MAXIMIZEBOX = 0x00010000L;
+        private const uint SWP_NOMOVE = 0x0002;
+        private const uint SWP_NOSIZE = 0x0001;
+        private const uint SWP_NOZORDER = 0x0004;
+        private const uint SWP_FRAMECHANGED = 0x0020;
+
+        public void SetBorderless(bool borderless)
+        {
+            if (_currentWindow == IntPtr.Zero) return;
+
+            long style = GetWindowLong(_currentWindow, GWL_STYLE);
+
+            if (borderless)
+            {
+                style &= ~WS_CAPTION;
+                style &= ~WS_THICKFRAME;
+                style &= ~WS_BORDER;
+                style &= ~WS_SYSMENU;
+                style &= ~WS_MINIMIZEBOX;
+                style &= ~WS_MAXIMIZEBOX;
+            }
+            else
+            {
+                style |= WS_CAPTION;
+                style |= WS_THICKFRAME;
+                style |= WS_SYSMENU;
+                style |= WS_MINIMIZEBOX;
+                style |= WS_MAXIMIZEBOX;
+            }
+
+            SetWindowLong(_currentWindow, GWL_STYLE, style);
+            SetWindowPos(_currentWindow, IntPtr.Zero, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER | SWP_FRAMECHANGED);
+        }
 
         // 1280x720 as default (prob tweak later)
         private const int defaultScreenWidth = 1280;
@@ -74,8 +114,8 @@ namespace Bloxstrap.Integrations
             _lastSCHeight = defaultScreenHeight;
 
             // try to find window
-            _currentWindow = FindWindow("Roblox");
-            _foundWindow = !(_currentWindow == (IntPtr)0);
+            _currentWindow = FindWindow();
+            _foundWindow = !(_currentWindow == IntPtr.Zero);
 
             if (_foundWindow) { onWindowFound(); }
 
@@ -211,6 +251,7 @@ namespace Bloxstrap.Integrations
                 // reset sets to defaults on the monitor it was found at the start
                 MoveWindow(_currentWindow,_startingX,_startingY,_startingWidth,_startingHeight,false);
                 SetWindowLong(_currentWindow, GWL_EXSTYLE, _windowLong);
+                SetBorderless(false);
 
                 changedWindow = false;
             }
@@ -223,13 +264,13 @@ namespace Bloxstrap.Integrations
 
             // try to find window now
             if (!_foundWindow) {
-                _currentWindow = FindWindow("Roblox");
-                _foundWindow = !(_currentWindow == (IntPtr)0);
+                _currentWindow = FindWindow();
+                _foundWindow = !(_currentWindow == IntPtr.Zero);
 
                 if (_foundWindow) { onWindowFound(); }
             }
 
-            if (_currentWindow == (IntPtr)0) {return;}
+            if (_currentWindow == IntPtr.Zero) {return;}
 
             if (!curUniverseAllowed && (message.Command != "RequestWindowPermission" || prevUniverse == _activityWatcher.Data.UniverseId) && message.Command != "SetWindowTitle") { return; }
             
@@ -276,17 +317,7 @@ namespace Bloxstrap.Integrations
                     {
                         if (!App.Settings.Prop.MoveWindowAllowed) { break; }
 
-                        WindowMessage? windowData;
-
-                        try
-                        {
-                            windowData = message.Data.Deserialize<WindowMessage>();
-                        }
-                        catch (Exception)
-                        {
-                            App.Logger.WriteLine(LOG_IDENT, "Failed to parse message! (JSON deserialization threw an exception)");
-                            return;
-                        }
+                        WindowMessage? windowData = Deserialize<WindowMessage>(message);
 
                         if (windowData is null)
                         {
@@ -301,28 +332,20 @@ namespace Bloxstrap.Integrations
                         }
 
                         if (windowData.ScaleWidth != null)
-                        {
                             _lastSCWidth = (int)windowData.ScaleWidth;
-                        }
 
                         if (windowData.ScaleHeight != null)
-                        {
                             _lastSCHeight = (int)windowData.ScaleHeight;
-                        }
 
                         // scaling (float casting to fix integer division, might change screenWidth to float or something idk)
                         float scaleX = ((float)screenWidth) / _lastSCWidth;
                         float scaleY = ((float)screenHeight) / _lastSCHeight;
 
                         if (windowData.Width != null)
-                        {
                             _lastWidth = (int)(windowData.Width * scaleX);
-                        }
 
                         if (windowData.Height != null)
-                        {
                             _lastHeight = (int)(windowData.Height * scaleY);
-                        }
 
                         if (windowData.X != null)
                         {
@@ -345,17 +368,7 @@ namespace Bloxstrap.Integrations
                     {
                         if (!App.Settings.Prop.TitleControlAllowed) { return; }
 
-                        string? title;
-                        
-                        try
-                        {
-                            title = message.Data.Deserialize<string>();
-                        }
-                        catch (Exception)
-                        {
-                            App.Logger.WriteLine(LOG_IDENT, "Failed to parse message! (Not a valid string)");
-                            return;
-                        }
+                        string? title = Deserialize<string>(message);
 
                         if (title == null)
                             title = "Roblox";
@@ -366,17 +379,7 @@ namespace Bloxstrap.Integrations
                 case "SetWindowTransparency":
                     {
                         if (!App.Settings.Prop.WindowTransparencyAllowed) { return; }
-                        WindowTransparency? windowData;
-
-                        try
-                        {
-                            windowData = message.Data.Deserialize<WindowTransparency>();
-                        }
-                        catch (Exception)
-                        {
-                            App.Logger.WriteLine(LOG_IDENT, "Failed to parse message! (JSON deserialization threw an exception)");
-                            return;
-                        }
+                        WindowTransparency? windowData = Deserialize<WindowTransparency>(message);
 
                         if (windowData is null)
                         {
@@ -385,32 +388,53 @@ namespace Bloxstrap.Integrations
                         }
 
                         if (windowData.Transparency != null)
-                        {
                             _lastTransparency = (byte)(windowData.Transparency * 255);
-                        }
 
                         if (windowData.Color != null)
-                        {
                             _lastWindowColor = Convert.ToUInt32(windowData.Color, 16);
-                        }
 
                         if (windowData.UseAlpha != null)
-                        {
                             _lastTransparencyMode = (windowData.UseAlpha == true) ? LWA_ALPHA : LWA_COLORKEY;
-                        }
 
                         changedWindow = true;
 
                         if (_lastTransparency == 255)
-                        {
                             SetWindowLong(_currentWindow, GWL_EXSTYLE, _windowLong);
-                        }
                         else
                         {
                             SetWindowLong(_currentWindow, GWL_EXSTYLE, (_windowLong | WS_EX_LAYERED) & ~WS_EX_TRANSPARENT);
                             SetLayeredWindowAttributes(_currentWindow, _lastWindowColor, _lastTransparency, _lastTransparencyMode);
                         }
 
+                        break;
+                    }
+                case "SetWindowBorderless":
+                    {
+                        if (!App.Settings.Prop.MoveWindowAllowed) { break; }
+                        WindowBorderless? windowData = Deserialize<WindowBorderless>(message);
+
+                        if (windowData is null)
+                        {
+                            App.Logger.WriteLine(LOG_IDENT, "Failed to parse message! (JSON deserialization returned null)");
+                            return;
+                        }
+
+                        SetBorderless(windowData.Enabled ?? false);
+                        changedWindow = true;
+
+                        break;
+                    }
+                case "SendNotification":
+                    {
+                        WindowNotification? notifData = Deserialize<WindowNotification>(message);
+
+                        if (notifData is null)
+                        {
+                            App.Logger.WriteLine(LOG_IDENT, "Failed to parse message! (JSON deserialization returned null)");
+                            return;
+                        }
+
+                        _activityWatcher.watcher._notifyIcon?.ShowAlert(notifData.Title ?? "[[MISSING TITLE]]", notifData.Caption ?? "[[MISSING CAPTION]]", notifData.Duration ?? 5, null);
                         break;
                     }
                 default:
@@ -433,18 +457,33 @@ namespace Bloxstrap.Integrations
             GC.SuppressFinalize(this);
         }
 
-        private IntPtr FindWindow(string title)
+        private IntPtr FindWindow(string title = "Roblox")
         {
+            //Check the activity watcher process id first
+            Process? processById = Watcher.processId != null ? Process.GetProcessById((int)Watcher.processId) : null;
+            if (processById != null)
+                return processById.MainWindowHandle;
+
+            //Check the window title as a fallback
             Process[] tempProcesses;
             tempProcesses = Process.GetProcesses();
             foreach (Process proc in tempProcesses)
-            {
                 if (proc.MainWindowTitle == title)
-                {
                     return proc.MainWindowHandle;
-                }
+
+            return IntPtr.Zero;
+        }
+
+        private static T? Deserialize<T>(Message message)
+        {
+            try
+            {
+                return message.Data.Deserialize<T>();
             }
-            return (IntPtr)0;
+            catch
+            {
+                return default;
+            }
         }
 
         [DllImport("user32.dll", SetLastError = true)]
@@ -464,5 +503,8 @@ namespace Bloxstrap.Integrations
 
         [DllImport("user32.dll")]
         static extern bool SetLayeredWindowAttributes(IntPtr hwnd, uint crKey, byte bAlpha, uint dwFlags);
+
+        [DllImport("user32.dll")]
+        static extern bool SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, int X, int Y, int cx, int cy, uint uFlags);
     }
 }

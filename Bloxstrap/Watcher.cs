@@ -17,6 +17,8 @@ namespace Bloxstrap
 
         public static string? robloxPath;
 
+        public static int? processId;
+
         public readonly ActivityWatcher? ActivityWatcher;
 
         public readonly DiscordRichPresence? RichPresence;
@@ -77,6 +79,7 @@ namespace Bloxstrap
                 throw new Exception("Watcher data is invalid");
 
             robloxPath = _watcherData.RobloxDirectory;
+            processId = _watcherData.ProcessId;
 
             if (App.Settings.Prop.EnableActivityTracking)
             {

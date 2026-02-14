@@ -46,7 +46,7 @@
                 if (gameDetailResponse == null)
                     throw new InvalidHTTPResponseException("Roblox API for Game Details returned invalid data");
 
-                string creatorApiRoute = gameDetailResponse.CreatorType == "Group" ? "https://groups.roblox.com/v1/groups/" : "https://users.roblox.com/v1/users/17371285";
+                string creatorApiRoute = gameDetailResponse.CreatorType == "Group" ? "https://groups.roblox.com/v1/groups/" : "https://users.roblox.com/v1/users/";
                 
                 var gameCreator = await Http.GetJson<GameCreator>($"{creatorApiRoute}{gameDetailResponse.CreatorTargetId.ToString()}");
                 

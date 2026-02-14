@@ -384,10 +384,10 @@ If it's not, then please report this exception through a [GitHub issue]({1}) alo
   <data name="Enums.Theme.Light" xml:space="preserve">
     <value>Light</value>
   </data>
-   <data name="Enums.WindowMonitorStyle.Single" xml:space="preserve">
+  <data name="Enums.WindowMonitorStyle.Single" xml:space="preserve">
     <value>Single</value>
   </data>
-   <data name="Enums.WindowMonitorStyle.All" xml:space="preserve">
+  <data name="Enums.WindowMonitorStyle.All" xml:space="preserve">
     <value>All</value>
   </data>
   <data name="InstallChecker.Updated" xml:space="preserve">
@@ -711,7 +711,7 @@ Selecting 'No' will ignore this warning and continue installation.</value>
   <data name="Menu.Integrations.WindowControl.Description" xml:space="preserve">
     <value>Allows games that you give permission to control the Roblox window. Note: Makes the game aware that you are using Funkstrap. We recommend enabling the [Windows Game Mode]({0}) in order to not drop inputs</value>
   </data>
-   <data name="Menu.Integrations.MoveWindowControl.Title" xml:space="preserve">
+  <data name="Menu.Integrations.MoveWindowControl.Title" xml:space="preserve">
     <value>Window movement</value>
   </data>
   <data name="Menu.Integrations.MoveWindowControl.Description" xml:space="preserve">
@@ -1479,5 +1479,11 @@ Defaulting to {1}.</value>
   </data>
   <data name="Menu.FastFlagEditor.AllowlistInformation" xml:space="preserve">
     <value>Due to the [Fast Flag allowlist update]({0}), most custom Fast Flags will have no effect on the Roblox player.</value>
+  </data>
+  <data name="Menu.Integrations.WinColorControl.Title" xml:space="preserve">
+    <value>Window Color Change</value>
+  </data>
+  <data name="Menu.Integrations.WinColorControl.Description" xml:space="preserve">
+    <value>Allows the selected game to change the window border and caption color (Only on Windows 11)</value>
   </data>
 </root>

@@ -3344,6 +3344,24 @@ namespace Bloxstrap.Resources {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à Allows the selected game to change the window border and caption color (Only on Windows 11).
+        /// </summary>
+        public static string Menu_Integrations_WinColorControl_Description {
+            get {
+                return ResourceManager.GetString("Menu.Integrations.WinColorControl.Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Window Color Change.
+        /// </summary>
+        public static string Menu_Integrations_WinColorControl_Title {
+            get {
+                return ResourceManager.GetString("Menu.Integrations.WinColorControl.Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Allows every game to use window control features, even if it&apos;s not in the whitelist or it&apos;s blacklisted.
         /// </summary>
         public static string Menu_Integrations_WindowAllowAll_Description {

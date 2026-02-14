@@ -143,6 +143,12 @@ namespace Bloxstrap.UI.ViewModels.Settings
             set => App.Settings.Prop.WindowTransparencyAllowed = value;
         }
 
+        public bool WinColorControlEnabled
+        {
+            get => App.Settings.Prop.CanGameChangeColor;
+            set => App.Settings.Prop.CanGameChangeColor = value;
+        }
+
         public bool WindowAllowAllOption
         {
             get => App.Settings.Prop.WindowAllowAll;

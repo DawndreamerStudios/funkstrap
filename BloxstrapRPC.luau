@@ -44,6 +44,12 @@ export type WindowTransparencyData = {
 	useAlpha: boolean?;
 }
 
+export type WindowColor = {
+	caption:		string?,
+	border:			string?,
+	reset:			boolean?,
+}
+
 --[=[
 	Removes any non-number characters from AssetId, useful if the developer is passing in a ID that is taken directly from Instances like Decals or ImageLabels that contain `rbxassetid` or a URL like `http://www.roblox.com/asset/?id=`.
 ]=]
@@ -352,7 +358,11 @@ function BloxstrapRPC.SendNotification(title:string, caption:string, duration:nu
 	BloxstrapRPC.SendMessage("SendNotification", {title = title, caption = caption, duration = duration})
 end
 
-for _,func in {"ShowPopup","RemoveWindows","CreateWindow","SetWindowDefault","ShowWindow","SetWindowColor"} do
+function BloxstrapRPC.SetWindowColor(data:WindowColor)
+	BloxstrapRPC.SendMessage("SetWindowColor", data)
+end
+
+for _,func in {"ShowPopup","RemoveWindows","CreateWindow","SetWindowDefault","ShowWindow"} do
 	BloxstrapRPC[func] = function()
 		warn(`[BloxstrapRPC :: {func}] This function is not functional yet`)
 	end

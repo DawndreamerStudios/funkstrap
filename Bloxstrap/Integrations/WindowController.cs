@@ -1,6 +1,7 @@
 ﻿using Bloxstrap.Models.BloxstrapRPC;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
+using Windows.Win32.Foundation;
 using Message = Bloxstrap.Models.BloxstrapRPC.Message;
 public struct WindowRect {
    public int Left { get; set; }
@@ -37,6 +38,9 @@ namespace Bloxstrap.Integrations
         private const uint SWP_NOSIZE = 0x0001;
         private const uint SWP_NOZORDER = 0x0004;
         private const uint SWP_FRAMECHANGED = 0x0020;
+
+        private const int DWMWA_USE_IMMERSIVE_DARK_MODE_OLD = 19;
+        private const int DWMWA_USE_IMMERSIVE_DARK_MODE = 20;
 
         public void SetBorderless(bool borderless)
         {
@@ -93,6 +97,8 @@ namespace Bloxstrap.Integrations
         private int _lastSCHeight = 0;
         private byte _lastTransparency = 1;
         private uint _lastWindowColor = 0x000000;
+        private uint _lastWindowCaptionColor = 0x000000;
+        private uint _lastWindowBorderColor = 0x000000;
         private uint _lastTransparencyMode = 0x00000001;
 
         private int _startingX = 0;
@@ -102,6 +108,9 @@ namespace Bloxstrap.Integrations
 
         private bool curUniverseAllowed = false;
         private long prevUniverse = 0;
+
+        private Theme appTheme = Theme.Default;
+        private const int S_OK = 0;
 
         public WindowController(ActivityWatcher activityWatcher)
         {
@@ -211,6 +220,14 @@ namespace Bloxstrap.Integrations
 
             App.Logger.WriteLine(LOG_IDENT, $"Monitor X:{monitorX} Y:{monitorY} W:{screenWidth} H:{screenHeight}");
             App.Logger.WriteLine(LOG_IDENT, $"Window X:{_lastX} Y:{_lastY} W:{_lastWidth} H:{_lastHeight}");
+
+            appTheme = ThemeEx.GetFinal(App.Settings.Prop.Theme);
+            if (App.Settings.Prop.CanGameChangeColor && appTheme == Theme.Dark)
+            {
+                DisableWindowDarkMode();
+                _lastWindowCaptionColor = Convert.ToUInt32("1F1F1F", 16);
+                DwmSetWindowAttribute(_currentWindow, 35, ref _lastWindowCaptionColor, sizeof(int));
+            }
         }
 
         public void stopWindow() {
@@ -257,6 +274,28 @@ namespace Bloxstrap.Integrations
             }
             
             SendMessage(_currentWindow, WM_SETTEXT, IntPtr.Zero, "Roblox");
+
+            //reset window color
+            if (App.Settings.Prop.CanGameChangeColor)
+            {
+                DisableWindowDarkMode();
+                _lastWindowCaptionColor = Convert.ToUInt32(appTheme == Theme.Dark ? "1F1F1F" : "FFFFFF", 16);
+                DwmSetWindowAttribute(_currentWindow, 35, ref _lastWindowCaptionColor, sizeof(int));
+
+                _lastWindowBorderColor = Convert.ToUInt32("1F1F1F", 16);
+                DwmSetWindowAttribute(_currentWindow, 34, ref _lastWindowBorderColor, sizeof(int));
+            }
+        }
+
+        void DisableWindowDarkMode()
+        {
+            uint disableDarkMode = 0;
+            int cbAttribute = Marshal.SizeOf<int>();
+            if (S_OK != DwmSetWindowAttribute(_currentWindow, DWMWA_USE_IMMERSIVE_DARK_MODE_OLD, ref disableDarkMode, cbAttribute))
+            {
+                DwmSetWindowAttribute(_currentWindow, DWMWA_USE_IMMERSIVE_DARK_MODE, ref disableDarkMode, cbAttribute);
+            }
+            UpdateWindow(_currentWindow);
         }
 
         public void OnMessage(Message message) {
@@ -437,6 +476,40 @@ namespace Bloxstrap.Integrations
                         _activityWatcher.watcher._notifyIcon?.ShowAlert(notifData.Title ?? "[[MISSING TITLE]]", notifData.Caption ?? "[[MISSING CAPTION]]", notifData.Duration ?? 5, null);
                         break;
                     }
+                case "SetWindowColor":
+                    {
+                        if (!App.Settings.Prop.CanGameChangeColor) { return; }
+                        WindowColor? windowData = Deserialize<WindowColor>(message);
+
+                        if (windowData is null)
+                        {
+                            App.Logger.WriteLine(LOG_IDENT, "Failed to parse message! (JSON deserialization returned null)");
+                            return;
+                        }
+
+                        if (windowData.Reset == true)
+                        {
+                            windowData.Caption = appTheme == Theme.Dark ? "1F1F1F" : "FFFFFF";
+                            windowData.Border = "1F1F1F";
+                            windowData.Reset = false;
+                        }
+
+                        DisableWindowDarkMode();
+
+                        if (windowData.Caption is not null)
+                        {
+                            _lastWindowCaptionColor = Convert.ToUInt32(windowData.Caption, 16);
+                            DwmSetWindowAttribute(_currentWindow, 35, ref _lastWindowCaptionColor, sizeof(int));
+                        }
+
+                        if (windowData.Border is not null)
+                        {
+                            _lastWindowBorderColor = Convert.ToUInt32(windowData.Border, 16);
+                            DwmSetWindowAttribute(_currentWindow, 34, ref _lastWindowBorderColor, sizeof(int));
+                        }
+
+                        break;
+                    }
                 default:
                     {
                         return;
@@ -506,5 +579,11 @@ namespace Bloxstrap.Integrations
 
         [DllImport("user32.dll")]
         static extern bool SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, int X, int Y, int cx, int cy, uint uFlags);
+
+        [DllImport("dwmapi.dll")]
+        private static extern int DwmSetWindowAttribute(IntPtr hWnd, int dwAttribute, ref uint pvAttribute, int cbAttribute);
+
+        [DllImport("user32.dll")]
+        private static extern bool UpdateWindow(IntPtr hWnd);
     }
 }

@@ -27,6 +27,7 @@ namespace Bloxstrap.Models.Persistable
         public bool MoveWindowAllowed { get; set; } = true;
         public bool TitleControlAllowed { get; set; } = true;
         public bool WindowTransparencyAllowed { get; set; } = true;
+        public bool CanGameChangeColor { get; set; } = true;
         public WindowMonitorStyle WindowMonitorStyle { get; set; } = WindowMonitorStyle.Single;
         public int WindowReadFPS { get; set; } = 60;
         public bool WindowAllowAll { get; set; } = false;

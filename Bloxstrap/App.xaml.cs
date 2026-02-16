@@ -18,7 +18,7 @@ namespace Bloxstrap
         public const string ProjectRepository = "DawndreamerStudios/funkstrap";
         public const string ProjectDownloadLink = "https://bloxstraplabs.com";
         public const string ProjectHelpLink = "https://bloxstraplabs.com/wiki/help/";
-        public const string ProjectSupportLink = "https://github.com/DawndreamerStudios/funkstrap/issues/new";
+        public const string ProjectSupportLink = $@"https://github.com/{ProjectRepository}/issues/new";
 
         public const string RobloxPlayerAppName = "RobloxPlayerBeta";
         public const string RobloxStudioAppName = "RobloxStudioBeta";

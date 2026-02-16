@@ -14,10 +14,10 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
-	<AssemblyTitle>Funkstrap</AssemblyTitle>
-	<Product>Funkstrap</Product>
-	<Company>Dawndreamer Studios</Company>
-	<ApplicationTitle>Funkstrap</ApplicationTitle>
+    <AssemblyTitle>Funkstrap</AssemblyTitle>
+    <Product>Funkstrap</Product>
+    <Company>Dawndreamer Studios</Company>
+    <ApplicationTitle>Funkstrap</ApplicationTitle>
   </PropertyGroup>
     
   <ItemGroup>
@@ -77,13 +77,46 @@
     <ProjectReference Include="..\wpfui\src\Wpf.Ui\Wpf.Ui.csproj" />
   </ItemGroup>
 
+  <Target Name="ResolveGitCommitInfo" BeforeTargets="GenerateAssemblyInfo;CoreGenerateAssemblyInfo;BeforeCompile" Condition="Exists('$(MSBuildProjectDirectory)/../.git') OR Exists('$(MSBuildProjectDirectory)/.git')">
+    <Exec Command="git rev-parse --short=7 HEAD" ConsoleToMSBuild="true" IgnoreExitCode="true" StandardOutputImportance="low">
+      <Output TaskParameter="ConsoleOutput" PropertyName="CommitHashRaw" />
+    </Exec>
+
+    <Exec Command="git describe --tags --exact-match 2&gt;nul" ConsoleToMSBuild="true" IgnoreExitCode="true" StandardOutputImportance="low">
+      <Output TaskParameter="ConsoleOutput" PropertyName="TagRaw" />
+    </Exec>
+
+    <Exec Command="git symbolic-ref --short HEAD 2&gt;nul" ConsoleToMSBuild="true" IgnoreExitCode="true" StandardOutputImportance="low">
+      <Output TaskParameter="ConsoleOutput" PropertyName="BranchRaw" />
+    </Exec>
+
+    <PropertyGroup>
+      <CommitHashRaw Condition="'$(CommitHashRaw)'==''">unknown</CommitHashRaw>
+      <TagRaw Condition="'$(TagRaw)'==''"></TagRaw>
+      <BranchRaw Condition="'$(BranchRaw)'==''"></BranchRaw>
+
+      <CommitHash>$(CommitHashRaw.Trim())</CommitHash>
+
+      <CommitRef Condition="'$(TagRaw.Trim())' != ''">tag/$(TagRaw.Trim())</CommitRef>
+      <CommitRef Condition="'$(CommitRef)' == '' AND '$(BranchRaw.Trim())' != ''">branch/$(BranchRaw.Trim())</CommitRef>
+      <CommitRef Condition="'$(CommitRef)' == ''">commit/$(CommitHash)</CommitRef>
+      <CommitRef Condition="'$(CommitRef)' == '' OR '$(CommitRef)' == 'commit/unknown'">unknown</CommitRef>
+    </PropertyGroup>
+  </Target>
+
+  <Target Name="AddBuildMetadataAttribute" AfterTargets="ResolveGitCommitInfo" BeforeTargets="CoreGenerateAssemblyInfo" Condition="'$(CommitHash)' != '' AND '$(CommitRef)' != '' AND '$(CommitHash)' != 'unknown'">
+    <ItemGroup>
+      <AssemblyAttribute Remove="Bloxstrap.Models.Attributes.BuildMetadataAttribute" /> <!-- just incase its there already -->
+      <AssemblyAttribute Include="Bloxstrap.Models.Attributes.BuildMetadataAttribute">
+        <_Parameter1>$([System.DateTime]::UtcNow.ToString("s"))Z</_Parameter1>
+        <_Parameter2>$(COMPUTERNAME)\$(USERNAME)</_Parameter2>
+        <_Parameter3>$(CommitHash)</_Parameter3>
+        <_Parameter4>$(CommitRef)</_Parameter4>
+      </AssemblyAttribute>
+    </ItemGroup>
+  </Target>
+
   <ItemGroup>
-    <AssemblyAttribute Include="Bloxstrap.Models.Attributes.BuildMetadataAttribute">
-      <_Parameter1>$([System.DateTime]::UtcNow.ToString("s"))Z</_Parameter1>
-      <_Parameter2>$(COMPUTERNAME)\$(USERNAME)</_Parameter2>
-      <_Parameter3>$(CommitHash)</_Parameter3>
-      <_Parameter4>$(CommitRef)</_Parameter4>
-    </AssemblyAttribute>
     <AssemblyMetadata Include="BLOX_Version" Value="$(BLOX_Version)" />
   </ItemGroup>
 

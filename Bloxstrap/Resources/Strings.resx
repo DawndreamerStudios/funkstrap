@@ -1486,4 +1486,10 @@ Defaulting to {1}.</value>
   <data name="Menu.Integrations.WinColorControl.Description" xml:space="preserve">
     <value>Allows the selected game to change the window border and caption color (Only on Windows 11)</value>
   </data>
+  <data name="InstallChecker.VersionDifferentThanInstalledDev" xml:space="preserve">
+    <value>The version of Funkstrap you are about to install is a dev/unofficial build.
+Would you like to upgrade your currently installed version?
+
+(Commit: {0} / Version: {1} / {2})</value>
+  </data>
 </root>

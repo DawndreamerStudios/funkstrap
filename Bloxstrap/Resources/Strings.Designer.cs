@@ -1903,6 +1903,18 @@ namespace Bloxstrap.Resources {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à The version of Funkstrap you are about to install is a dev/unofficial build.
+        ///Would you like to upgrade your currently installed version?
+        ///
+        ///(Commit: {0} / Version: {1} / {2}).
+        /// </summary>
+        public static string InstallChecker_VersionDifferentThanInstalledDev {
+            get {
+                return ResourceManager.GetString("InstallChecker.VersionDifferentThanInstalledDev", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à The version of Funkstrap you&apos;ve launched is older than the version you currently have installed.
         ///Issues may occur and your settings may be altered. A reinstall is recommended.
         ///Are you sure you want to continue?.

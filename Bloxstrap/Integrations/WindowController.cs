@@ -532,10 +532,14 @@ namespace Bloxstrap.Integrations
 
         private IntPtr FindWindow(string title = "Roblox")
         {
-            //Check the activity watcher process id first
-            Process? processById = Watcher.processId != null ? Process.GetProcessById((int)Watcher.processId) : null;
-            if (processById != null)
-                return processById.MainWindowHandle;
+            // In a try/catch block as getting a process that doesn't throws an exception for some reason
+            try
+            {
+                //Check the activity watcher process id first
+                Process? processById = Watcher.processId != null ? Process.GetProcessById((int)Watcher.processId) : null;
+                if (processById != null)
+                    return processById.MainWindowHandle;
+            } catch { }
 
             //Check the window title as a fallback
             Process[] tempProcesses;

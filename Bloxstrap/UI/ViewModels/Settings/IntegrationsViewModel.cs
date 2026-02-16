@@ -1,9 +1,8 @@
-﻿using System.Collections.ObjectModel;
-using System.Windows.Input;
-
-using Microsoft.Win32;
-
+﻿using Bloxstrap.Integrations;
 using CommunityToolkit.Mvvm.Input;
+using Microsoft.Win32;
+using System.Collections.ObjectModel;
+using System.Windows.Input;
 
 namespace Bloxstrap.UI.ViewModels.Settings
 {
@@ -292,15 +291,19 @@ namespace Bloxstrap.UI.ViewModels.Settings
                 if (value is null)
                     return;
 
-                SelectedUniverseDetails = PlaceholderUniverseDetails;
-                OnPropertyChanged(nameof(SelectedUniverseDetails));
-
                 Task.Run(async () =>
                 {
-                    await UniverseDetails.FetchSingle((long)value);
+                    long universeID = (long)value;
+                    UniverseDetails? universe = UniverseDetails.LoadFromCache(universeID);
+                    if (universe == null)
+                    {
+                        SelectedUniverseDetails = PlaceholderUniverseDetails;
+                        OnPropertyChanged(nameof(SelectedUniverseDetails));
+                        await UniverseDetails.FetchSingle(universeID);
+                    }
                     if (value == _selectedUniverse)
                     {
-                        SelectedUniverseDetails = UniverseDetails.LoadFromCache((long)value);
+                        SelectedUniverseDetails = UniverseDetails.LoadFromCache(universeID);
                     }
                     else
                     {

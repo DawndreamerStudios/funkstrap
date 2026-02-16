@@ -33,8 +33,10 @@ internal class WindowControlPermissionViewModel : NotifyPropertyChangedViewModel
         OnPropertyChanged(nameof(LoadState));
 
         List<ActivityData> thingy = new();
-        await UniverseDetails.FetchSingle(_activityWatcher.Data.UniverseId);
         UniverseDetails? universe = UniverseDetails.LoadFromCache(_activityWatcher.Data.UniverseId);
+        if (universe == null)
+            await UniverseDetails.FetchSingle(_activityWatcher.Data.UniverseId);
+        universe = UniverseDetails.LoadFromCache(_activityWatcher.Data.UniverseId);
 
         ActivityData data = new ActivityData();
         data.UniverseDetails = universe;

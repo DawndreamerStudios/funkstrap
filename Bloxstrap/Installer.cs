@@ -386,7 +386,7 @@ namespace Bloxstrap
             if (!isAutoUpgrade)
             {
                 var result = Frontend.ShowMessageBox(
-                    Strings.InstallChecker_VersionDifferentThanInstalled,
+                    App.IsProductionBuild ? Strings.InstallChecker_VersionDifferentThanInstalled : String.Format(Strings.InstallChecker_VersionDifferentThanInstalledDev, App.BuildMetadata.CommitHash, App.Version, App.BuildMetadata.Machine),
                     MessageBoxImage.Question,
                     MessageBoxButton.YesNo
                 );

@@ -19,7 +19,7 @@
     <Company>Dawndreamer Studios</Company>
     <ApplicationTitle>Funkstrap</ApplicationTitle>
   </PropertyGroup>
-    
+
   <ItemGroup>
     <Resource Include="Bloxstrap.ico" />
     <Resource Include="Resources\Fonts\NotoSansThai-VariableFont_wdth,wght.ttf" />
@@ -156,4 +156,9 @@
       <LastGenOutput>Strings.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
+
+  <PropertyGroup Condition="'$(Configuration)'=='Release'">
+    <DebugType>none</DebugType>
+    <DebugSymbols>false</DebugSymbols>
+  </PropertyGroup>
 </Project>

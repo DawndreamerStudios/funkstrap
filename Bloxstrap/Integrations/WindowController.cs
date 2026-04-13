@@ -38,6 +38,8 @@ namespace Bloxstrap.Integrations
         private const uint SWP_NOSIZE = 0x0001;
         private const uint SWP_NOZORDER = 0x0004;
         private const uint SWP_FRAMECHANGED = 0x0020;
+        private const uint SWP_NOSENDCHANGING = 0x0400;
+        private const uint SWP_ASYNCWINDOWPOS = 0x4000;
 
         private const int DWMWA_USE_IMMERSIVE_DARK_MODE_OLD = 19;
         private const int DWMWA_USE_IMMERSIVE_DARK_MODE = 20;
@@ -67,7 +69,7 @@ namespace Bloxstrap.Integrations
             }
 
             SetWindowLong(_currentWindow, GWL_STYLE, style);
-            SetWindowPos(_currentWindow, IntPtr.Zero, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER | SWP_FRAMECHANGED);
+            SetWindowPos(_currentWindow, IntPtr.Zero, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER | SWP_ASYNCWINDOWPOS | SWP_NOSENDCHANGING | SWP_FRAMECHANGED);
         }
 
         // 1280x720 as default (prob tweak later)
@@ -266,7 +268,7 @@ namespace Bloxstrap.Integrations
                 _lastTransparencyMode = LWA_COLORKEY;
 
                 // reset sets to defaults on the monitor it was found at the start
-                MoveWindow(_currentWindow,_startingX,_startingY,_startingWidth,_startingHeight,false);
+                MoveWindow(_startingX,_startingY,_startingWidth,_startingHeight);
                 SetWindowLong(_currentWindow, GWL_EXSTYLE, _windowLong);
                 SetBorderless(false);
 
@@ -346,7 +348,7 @@ namespace Bloxstrap.Integrations
                     _lastWidth = _startingWidth;
                     _lastHeight = _startingHeight;
 
-                    MoveWindow(_currentWindow, _startingX, _startingY, _startingWidth, _startingHeight, false);
+                    MoveWindow(_startingX, _startingY, _startingWidth, _startingHeight);
                     break;
                 /*case "SaveWindow":
                 case "SetWindowDefault": // just like RestoreWindow, this one is getting removed soon
@@ -399,7 +401,7 @@ namespace Bloxstrap.Integrations
                         }
 
                         changedWindow = true;
-                        MoveWindow(_currentWindow, _lastX + monitorX, _lastY + monitorY, (int)(_lastWidth * widthMult), (int)(_lastHeight * heightMult), false);
+                        MoveWindow(_lastX + monitorX, _lastY + monitorY, (int)(_lastWidth * widthMult), (int)(_lastHeight * heightMult));
                         //App.Logger.WriteLine(LOG_IDENT, $"Updated Window Properties");
                         break;
                     }
@@ -563,8 +565,44 @@ namespace Bloxstrap.Integrations
             }
         }
 
-        [DllImport("user32.dll", SetLastError = true)]
-        internal static extern bool MoveWindow(IntPtr hWnd, int X, int Y, int nWidth, int nHeight, bool bRepaint);
+        private int _lastSetX = -1;
+        private int _lastSetY = -1;
+        private int _lastSetWidth = -1;
+        private int _lastSetHeight = -1;
+
+        private void MoveWindow(int x, int y, int width, int height)
+        {
+            if (_currentWindow == IntPtr.Zero)
+                return;
+
+            bool posChanged = (x != _lastSetX || y != _lastSetY);
+            bool sizeChanged = (width != _lastSetWidth || height != _lastSetHeight);
+
+            if (!posChanged && !sizeChanged)
+                return; //nothing to do vro
+
+            _lastX = x;
+            _lastY = y;
+            _lastSetWidth = width;
+            _lastSetHeight = height;
+
+            uint uFlags = SWP_NOZORDER | SWP_ASYNCWINDOWPOS | SWP_NOSENDCHANGING;
+
+            if (!posChanged)
+                uFlags |= SWP_NOMOVE;
+            if (!sizeChanged)
+                uFlags |= SWP_NOSIZE;
+
+            SetWindowPos(
+                _currentWindow,
+                IntPtr.Zero,
+                posChanged ? x : 0,
+                posChanged ? y : 0,
+                sizeChanged ? width : 0,
+                sizeChanged ? height : 0,
+                uFlags
+            );
+        }
 
         [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
         internal static extern IntPtr SendMessage(IntPtr hWnd, uint Msg, IntPtr wParam, string lParam);

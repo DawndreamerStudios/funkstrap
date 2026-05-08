@@ -163,15 +163,15 @@ namespace Bloxstrap
                 message += $"\n\n{Strings.Dialog_Connectivity_RobloxUpgradeSkip}";
 
             Frontend.ShowConnectivityDialog(
-                String.Format(Strings.Dialog_Connectivity_UnableToConnect, "Roblox"), 
-                message, 
+                String.Format(Strings.Dialog_Connectivity_UnableToConnect, "Roblox"),
+                message,
                 _mustUpgrade ? MessageBoxImage.Error : MessageBoxImage.Warning,
                 exception);
 
             if (_mustUpgrade)
                 App.Terminate(ErrorCode.ERROR_CANCELLED);
         }
-        
+
         public async Task Run()
         {
             const string LOG_IDENT = "Bootstrapper::Run";
@@ -190,7 +190,7 @@ namespace Bloxstrap
 
             if (connectionResult is not null)
                 HandleConnectionError(connectionResult);
-            
+
 #if (!DEBUG || DEBUG_UPDATER) && !QA_BUILD
             if (App.Settings.Prop.CheckForUpdates && !App.LaunchSettings.UpgradeFlag.Active)
             {
@@ -265,7 +265,7 @@ namespace Bloxstrap
                         Utilities.KillBackgroundUpdater();
                         backgroundUpdaterMutexOpen = false;
                     }
-                   
+
                     if (!backgroundUpdaterMutexOpen)
                     {
                         if (IsEligibleForBackgroundUpdate())
@@ -675,10 +675,10 @@ namespace Bloxstrap
             {
                 using var ipl = new InterProcessLock("Watcher", TimeSpan.FromSeconds(5));
 
-                var watcherData = new WatcherData 
-                { 
-                    ProcessId = _appPid, 
-                    LogFile = logFileName, 
+                var watcherData = new WatcherData
+                {
+                    ProcessId = _appPid,
+                    LogFile = logFileName,
                     AutoclosePids = autoclosePids,
                     RobloxDirectory = _latestVersionDirectory
                 };
@@ -758,13 +758,13 @@ namespace Bloxstrap
 
             App.SoftTerminate(ErrorCode.ERROR_CANCELLED);
         }
-#endregion
+        #endregion
 
         #region App Install
         private async Task<bool> CheckForUpdates()
         {
             const string LOG_IDENT = "Bootstrapper::CheckForUpdates";
-            
+
             // don't update if there's another instance running (likely running in the background)
             // i don't like this, but there isn't much better way of doing it /shrug
             if (Process.GetProcessesByName(App.ProjectName).Length > 1)
@@ -816,7 +816,7 @@ namespace Bloxstrap
                 Directory.CreateDirectory(Paths.TempUpdates);
 
                 App.Logger.WriteLine(LOG_IDENT, $"Downloading {releaseInfo.TagName}...");
-                
+
                 if (!File.Exists(downloadLocation))
                 {
                     var response = await App.HttpClient.GetAsync(asset.BrowserDownloadUrl);
@@ -846,7 +846,7 @@ namespace Bloxstrap
                 App.Settings.Save();
 
                 new InterProcessLock("AutoUpdater");
-                
+
                 Process.Start(startInfo);
 
                 return true;
@@ -1063,7 +1063,7 @@ namespace Bloxstrap
             // packed size only matters if we don't already have the package cached on disk
             totalSizeRequired += _versionPackageManifest.Where(x => !cachedPackageHashes.Contains(x.Signature)).Sum(x => x.PackedSize);
             totalSizeRequired += _versionPackageManifest.Sum(x => x.Size);
-            
+
             if (Filesystem.GetFreeDiskSpace(Paths.Base) < totalSizeRequired)
             {
                 Frontend.ShowMessageBox(Strings.Bootstrapper_NotEnoughSpace, MessageBoxImage.Error);
@@ -1119,7 +1119,7 @@ namespace Bloxstrap
             }
 
             await Task.WhenAll(extractionTasks);
-            
+
             App.Logger.WriteLine(LOG_IDENT, "Writing AppSettings.xml...");
             await File.WriteAllTextAsync(Path.Combine(_latestVersionDirectory, "AppSettings.xml"), AppSettings);
 
@@ -1135,7 +1135,7 @@ namespace Bloxstrap
                 {
                     // reset prompt state if the user has it installed
                     App.State.Prop.PromptWebView2Install = true;
-                }   
+                }
                 else
                 {
                     var result = Frontend.ShowMessageBox(Strings.Bootstrapper_WebView2NotFound, MessageBoxImage.Warning, MessageBoxButton.YesNo, MessageBoxResult.Yes);
@@ -1382,21 +1382,43 @@ namespace Bloxstrap
                 }
             }
 
-            if (App.Settings.Prop.EnableActivityTracking && App.Settings.Prop.UseWindowControl) {
+            if (App.Settings.Prop.EnableActivityTracking && App.Settings.Prop.UseWindowControl)
+            {
                 var idsPath = Path.Combine(_latestVersionDirectory, "content\\bloxstrap");
 
-                // make sure it exists
                 Directory.CreateDirectory(idsPath);
 
                 var directory = new DirectoryInfo(idsPath);
-                
-                // clear
-                foreach(FileInfo file in directory.GetFiles()) file.Delete();
-                foreach (DirectoryInfo subDirectory in directory.GetDirectories()) subDirectory.Delete(true);
-            
+
+                foreach (FileInfo file in directory.GetFiles())
+                    file.Delete();
+
+                foreach (DirectoryInfo subDirectory in directory.GetDirectories())
+                    subDirectory.Delete(true);
+
                 System.Drawing.Bitmap enabledBitmap = new System.Drawing.Bitmap(1, 1);
                 enabledBitmap.SetPixel(0, 0, System.Drawing.Color.White);
-                enabledBitmap.Save(Path.Combine(idsPath, $"enabled.png"), System.Drawing.Imaging.ImageFormat.Png);
+
+                enabledBitmap.Save(
+                    Path.Combine(idsPath, "enabled.png"),
+                    System.Drawing.Imaging.ImageFormat.Png
+                );
+
+                var wallpapersPath = Path.Combine(idsPath, "wallpapers");
+                Directory.CreateDirectory(wallpapersPath);
+
+                var preloadedPath = Path.Combine(AppContext.BaseDirectory, "Resources", "Preloaded");
+
+                if (Directory.Exists(preloadedPath))
+                {
+                    foreach (var file in Directory.GetFiles(preloadedPath))
+                    {
+                        var fileName = Path.GetFileName(file);
+                        var dest = Path.Combine(wallpapersPath, fileName);
+
+                        File.Copy(file, dest, true);
+                    }
+                }
             }
 
             // the manifest is primarily here to keep track of what files have been
@@ -1473,7 +1495,7 @@ namespace Bloxstrap
         private async Task DownloadPackage(Package package)
         {
             string LOG_IDENT = $"Bootstrapper::DownloadPackage.{package.Name}";
-            
+
             if (_cancelTokenSource.IsCancellationRequested)
                 return;
 

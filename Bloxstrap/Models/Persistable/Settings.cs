@@ -29,6 +29,9 @@ namespace Bloxstrap.Models.Persistable
         public bool WindowTransparencyAllowed { get; set; } = true;
         public bool CanGameChangeColor { get; set; } = true;
         public WindowMonitorStyle WindowMonitorStyle { get; set; } = WindowMonitorStyle.Single;
+        public bool WallpaperControlEnabled { get; set; } = false;
+        public bool DesktopControlEnabled { get; set; } = false;
+
         public int WindowReadFPS { get; set; } = 60;
         public bool WindowAllowAll { get; set; } = false;
         public ObservableCollection<long> WindowAllowedUniverses { get; set; } = new();

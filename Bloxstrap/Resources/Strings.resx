@@ -1492,4 +1492,16 @@ Would you like to upgrade your currently installed version?
 
 (Commit: {0} / Version: {1} / {2})</value>
   </data>
+  <data name="Menu.Integrations.WallpaperControl.Title" xml:space="preserve">
+    <value>Wallpaper Changes</value>
+  </data>
+  <data name="Menu.Integrations.WallpaperControl.Description" xml:space="preserve">
+    <value>Allows the selected game to change the desktop's wallpaper.</value>
+  </data>
+  <data name="Menu.Integrations.DesktopControl.Title" xml:space="preserve">
+    <value>Desktop Control</value>
+  </data>
+  <data name="Menu.Integrations.DesktopControl.Description" xml:space="preserve">
+    <value>Allows the selected game to hide and unhide the Taskbar and Desktop Icons</value>
+  </data>
 </root>

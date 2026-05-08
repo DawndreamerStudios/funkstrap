@@ -148,6 +148,18 @@ namespace Bloxstrap.UI.ViewModels.Settings
             set => App.Settings.Prop.CanGameChangeColor = value;
         }
 
+        public bool WallpaperControlEnabled
+        {
+            get => App.Settings.Prop.WallpaperControlEnabled;
+            set => App.Settings.Prop.WallpaperControlEnabled = value;
+        }
+
+        public bool DesktopControlEnabled
+        {
+            get => App.Settings.Prop.DesktopControlEnabled;
+            set => App.Settings.Prop.DesktopControlEnabled = value;
+        }
+
         public bool WindowAllowAllOption
         {
             get => App.Settings.Prop.WindowAllowAll;
@@ -184,7 +196,7 @@ namespace Bloxstrap.UI.ViewModels.Settings
             get => App.Settings.Prop.WindowMonitorStyle;
             set => App.Settings.Prop.WindowMonitorStyle = value;
         }
-        
+
         // universe stuff
         public ICommand DeleteUniverseCommand => new RelayCommand(DeleteUniverse);
         public ICommand SwapDisplayedUniversesCommand => new RelayCommand(SwapDisplayedUniverses);
@@ -244,7 +256,7 @@ namespace Bloxstrap.UI.ViewModels.Settings
             get => App.Settings.Prop.WindowAllowedUniverses;
             set => App.Settings.Prop.WindowAllowedUniverses = value;
         }
-        
+
         public ObservableCollection<long> WindowBlacklistedUniverses
         {
             get => App.Settings.Prop.WindowBlacklistedUniverses;
@@ -271,7 +283,8 @@ namespace Bloxstrap.UI.ViewModels.Settings
             {
                 ImageUrl = "/Bloxstrap.ico" // bloxstrap logo lol
             },
-            Data = new() {
+            Data = new()
+            {
                 Name = Strings.Menu_Integrations_WindowUniversesList_FailedUniverseLoad,
                 Id = -1,
             },
@@ -316,6 +329,6 @@ namespace Bloxstrap.UI.ViewModels.Settings
         }
         public int SelectedUniverseIndex { get; set; }
         public bool IsUniverseSelected => _selectedUniverse is not null;
-    
+
     }
 }

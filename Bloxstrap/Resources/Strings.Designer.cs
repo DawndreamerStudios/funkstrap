@@ -3471,6 +3471,42 @@ namespace Bloxstrap.Resources {
                 return ResourceManager.GetString("Menu.Integrations.WindowControl.Title", resourceCulture);
             }
         }
+
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Wallpaper Changes
+        /// </summary>
+        public static string Menu_Integrations_WallpaperControl_Title {
+            get {
+                return ResourceManager.GetString("Menu.Integrations.WallpaperControl.Title", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Allows the selected game to change the desktop's wallpaper
+        /// </summary>
+        public static string Menu_Integrations_WallpaperControl_Description {
+            get {
+                return ResourceManager.GetString("Menu.Integrations.WallpaperControl.Description", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Desktop Control
+        /// </summary>
+        public static string Menu_Integrations_DesktopControl_Title {
+            get {
+                return ResourceManager.GetString("Menu.Integrations.DesktopControl.Title", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Allows the selected game to hide and unhide the Taskbar and Desktop Icons
+        /// </summary>
+        public static string Menu_Integrations_DesktopControl_Description {
+            get {
+                return ResourceManager.GetString("Menu.Integrations.DesktopControl.Description", resourceCulture);
+            }
+        }
         
         /// <summary>
         ///   Recherche une chaîne localisée semblable à [Not window FPS] The FPS rate Funkstrap will check for window updates sent from the game, it&apos;s recommended to be set to your monitor&apos;s refresh rate (Higher = More lag)..

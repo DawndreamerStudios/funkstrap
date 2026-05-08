@@ -163,6 +163,20 @@
             <ui:ToggleSwitch IsChecked="{Binding WinColorControlEnabled, Mode=TwoWay}" />
         </controls:OptionControl>
 
+        <controls:OptionControl 
+            Header="{x:Static resources:Strings.Menu_Integrations_WallpaperControl_Title}" 
+            Description="{x:Static resources:Strings.Menu_Integrations_WallpaperControl_Description}"
+            IsEnabled="{Binding InnerContent.IsChecked, ElementName=WindowControlOption, Mode=OneWay}">
+            <ui:ToggleSwitch IsChecked="{Binding WallpaperControlEnabled, Mode=TwoWay}" />
+        </controls:OptionControl>
+
+        <controls:OptionControl 
+            Header="{x:Static resources:Strings.Menu_Integrations_DesktopControl_Title}" 
+            Description="{x:Static resources:Strings.Menu_Integrations_DesktopControl_Description}"
+            IsEnabled="{Binding InnerContent.IsChecked, ElementName=WindowControlOption, Mode=OneWay}">
+            <ui:ToggleSwitch IsChecked="{Binding DesktopControlEnabled, Mode=TwoWay}" />
+        </controls:OptionControl>
+
         <!-- Integrated now in the description because it looks off -->
         <!-- <controls:MarkdownTextBlock MarkdownText="{Binding Source={x:Static resources:Strings.Menu_Integrations_CanRequireNoFSOptimization}}" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
         -->

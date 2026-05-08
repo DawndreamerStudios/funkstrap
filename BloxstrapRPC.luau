@@ -38,16 +38,28 @@ export type WindowData = {
 	reset: boolean?,
 }
 
+export type WindowColor = {
+	caption: string?,
+	border:	string?,
+	reset: boolean?,
+}
+
+export type WallpaperData = {
+	asset: id?, 
+	style: string?, -- "Fill", "Fit", "Stretch", "Tile", "Center", "Span" (Defaults to Fill)
+	reset: boolean?, -- When true it restores the wallpaper that was set before the first call to SetWallpaper this session
+}
+
+export type DesktopData = {
+	taskbar: boolean?,
+	desktopIcons: boolean?,
+	reset: boolean?,
+}
+
 export type WindowTransparencyData = {
 	transparency: number?;
 	color: Color3|string?;
 	useAlpha: boolean?;
-}
-
-export type WindowColor = {
-	caption:		string?,
-	border:			string?,
-	reset:			boolean?,
 }
 
 --[=[
@@ -67,7 +79,7 @@ end
 ]=]
 function BloxstrapRPC.SendMessage(command: string, data: any)
 	if isStudio then return end;
-	
+
 	local json = HttpService:JSONEncode({
 		command = command,
 		data = data,
@@ -135,7 +147,6 @@ local function makeDiff(a, b)
 	return new
 end
 
-
 --[=[
 	These uri point to .png files that exist under the roblox 'content/bloxstrap' directory
 	enabled.png will show if the user has the window control setting enabled
@@ -158,7 +169,7 @@ local function onWindowDataLoaded()
 		editable = game:GetService("AssetService"):CreateEditableImageAsync(Content.fromUri(gameAllowedContent));
 		windowSettings = editable:ReadPixelsBuffer(Vector2.zero,Vector2.new(3,1))
 	end)
-	
+
 	if windowSettings then
 		pcall(function()
 			BloxstrapRPC.WindowSettings = {
@@ -192,15 +203,13 @@ if BloxstrapRPC.UsesBloxstrap and not BloxstrapRPC.AllowsWindowControl then
 		if status == Enum.AssetFetchStatus.Success then
 			fetchStatusChanged:Disconnect(); 
 			fetchStatusChanged = nil; 
-			
+
 			BloxstrapRPC.AllowsWindowControl = true;
 			print("[Bloxstrap] Allowed window control");
-			
+
 			onWindowDataLoaded();
 		end
 	end)
-elseif BloxstrapRPC.AllowsWindowControl then
-	onWindowDataLoaded();
 end
 
 function BloxstrapRPC.CheckWindowPermission()
@@ -324,7 +333,7 @@ function BloxstrapRPC.SetTransparency(data:WindowTransparencyData)
 
 	if typeof(diff.color) == "Color3" then
 		local hexColor = diff.color:ToHex();
-		
+
 		-- 0xbbggrr
 		diff.color = "0x"..(string.sub(hexColor,5,6)..string.sub(hexColor,3,4)..string.sub(hexColor,1,2));
 	end
@@ -347,11 +356,7 @@ function BloxstrapRPC.ResetTransparency()
 end
 
 function BloxstrapRPC.SetWindowBorderless(status: boolean)
-	if status == nil then
-		status = false;
-	end
-
-	BloxstrapRPC.SendMessage("SetWindowBorderless", {enabled = status})
+	BloxstrapRPC.SendMessage("SetWindowBorderless", status or false)
 end
 
 function BloxstrapRPC.SendNotification(title:string, caption:string, duration:number)
@@ -360,6 +365,76 @@ end
 
 function BloxstrapRPC.SetWindowColor(data:WindowColor)
 	BloxstrapRPC.SendMessage("SetWindowColor", data)
+end
+
+local VALID_WALLPAPER_STYLES = {
+	Fill = true,
+	Fit = true,
+	Stretch = true,
+	Tile = true,
+	Center = true,
+	Span = true,
+}
+
+function BloxstrapRPC.CacheWallpaper(assetId: number)
+	assetId = tonumber(assetId);
+	if not assetId then return; end;
+
+	BloxstrapRPC.SendMessage("CacheWallpaper", assetId)
+end
+
+function BloxstrapRPC.SetWallpaper(data: WallpaperData)
+	if not BloxstrapRPC.UsesBloxstrap then
+		return
+	end
+	
+	data.asset = tonumber(data.asset);
+
+	if data.reset or not data.asset then
+		BloxstrapRPC.SendMessage("SetWallpaper", {
+			reset = true
+		})
+		return
+	end
+
+	if data.style ~= nil and not VALID_WALLPAPER_STYLES[data.style] then
+		data.style = "Fill"
+	elseif data.style == nil then
+		data.style = "Fill"
+	end
+
+	BloxstrapRPC.SendMessage("SetWallpaper", {
+		asset = data.asset,
+		style = data.style,
+	})
+end
+
+function BloxstrapRPC.ResetWallpaper()
+	if not BloxstrapRPC.UsesBloxstrap then return end;
+	BloxstrapRPC.SendMessage("SetWallpaper", { reset = true })
+end
+
+function BloxstrapRPC.SetDesktopVisibility(data: DesktopData)
+	if not BloxstrapRPC.AllowsWindowControl then return end
+
+	if data.reset then
+		BloxstrapRPC.SendMessage("SetDesktopVisibility", { reset = true });
+		return;
+	end
+
+	local payload = {};
+	if data.taskbar ~= nil then payload.taskbar = data.taskbar end;
+	if data.desktopIcons ~= nil then payload.desktopIcons = data.desktopIcons end;
+
+	if next(payload) then
+		BloxstrapRPC.SendMessage("SetDesktopVisibility", payload);
+	end
+end
+
+function BloxstrapRPC.ResetDesktopVisibility()
+	if not BloxstrapRPC.AllowsWindowControl then return end
+
+	BloxstrapRPC.SendMessage("SetDesktopVisibility", { reset = true });
 end
 
 for _,func in {"ShowPopup","RemoveWindows","CreateWindow","SetWindowDefault","ShowWindow"} do
@@ -371,6 +446,5 @@ end
 BloxstrapRPC.RestoreWindow = BloxstrapRPC.ResetWindow;
 
 BloxstrapRPC.ResetTitle();
-BloxstrapRPC.ResetRPC(true);
 
 return BloxstrapRPC;

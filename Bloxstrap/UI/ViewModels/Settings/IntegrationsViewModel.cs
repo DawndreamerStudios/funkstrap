@@ -151,7 +151,26 @@ namespace Bloxstrap.UI.ViewModels.Settings
         public bool WallpaperControlEnabled
         {
             get => App.Settings.Prop.WallpaperControlEnabled;
-            set => App.Settings.Prop.WallpaperControlEnabled = value;
+            set 
+            {
+                if (value)
+                {
+                    var result = Frontend.ShowMessageBox(
+                        Strings.Menu_Integrations_WallpaperControl_Warning,
+                        System.Windows.MessageBoxImage.Warning,
+                        System.Windows.MessageBoxButton.YesNo,
+                        System.Windows.MessageBoxResult.No
+                    );
+                    if (result == System.Windows.MessageBoxResult.Yes)
+                    {
+                        App.Settings.Prop.WallpaperControlEnabled = true;
+                    }
+                } else
+                {
+                    App.Settings.Prop.WallpaperControlEnabled = false;
+                }
+                ;
+            }
         }
 
         public bool DesktopControlEnabled

@@ -12,8 +12,6 @@ namespace Bloxstrap
             - Download public roblox assets (Just like your client does)
     */
 
-    // TODO: Maybe delete old assets from %temp% on game switch?
-    
     // gubby this gubby that gubby server gubby lan gubby wi-fi gubby ram
 
     static class RobloxAPI
@@ -103,7 +101,7 @@ namespace Bloxstrap
             }
         }
 
-        async public static Task<string> getAsset(ulong assetId)
+        async public static Task<string> getImage(ulong assetId)
         {
             // Attempt to find prev loaded image
             // Psst.. you could... replace this image with your own.. this is as close of "game modding" you can gonna get without breaking ToS btw
@@ -117,8 +115,11 @@ namespace Bloxstrap
 
             var responseContent = await (await doRequest(GET_ASSET_URL + assetId, HttpMethod.Get)).Content.ReadFromJsonAsync<AssetDeliveryResponse>();
             
-            // TODO: CHECK FOR ASSETTYPE
-            
+            if (responseContent?.AssetTypeId != 13) // Image AssetTypeId
+            {
+                throw new Exception($"Asset type {responseContent?.AssetTypeId ?? -1} is not supported");
+            }
+
             var location = responseContent?.Locations?.First()?.Location ?? null;
 
             if (location == string.Empty || location == null)

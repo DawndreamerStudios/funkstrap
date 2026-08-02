@@ -3427,6 +3427,12 @@ namespace Bloxstrap.Resources {
             }
         }
 
+        public static string Menu_Integrations_WallpaperControl_Warning {
+            get {
+                return ResourceManager.GetString("Menu.Integrations.WallpaperControl.Warning", resourceCulture);
+            }
+        }
+
         /// <summary>
         ///   Recherche une chaîne localisée semblable à Desktop Control
         /// </summary>

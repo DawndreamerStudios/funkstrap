@@ -1481,10 +1481,10 @@ Defaulting to {1}.</value>
     <value>Due to the [Fast Flag allowlist update]({0}), most custom Fast Flags will have no effect on the Roblox player.</value>
   </data>
   <data name="Menu.Integrations.WinColorControl.Title" xml:space="preserve">
-    <value>Window Color Change</value>
+    <value>Window color change</value>
   </data>
   <data name="Menu.Integrations.WinColorControl.Description" xml:space="preserve">
-    <value>Allows the selected game to change the window border and caption color (Only on Windows 11)</value>
+    <value>Allows the game to change the window border and caption color (Only on Windows 11)</value>
   </data>
   <data name="InstallChecker.VersionDifferentThanInstalledDev" xml:space="preserve">
     <value>The version of Funkstrap you are about to install is a dev/unofficial build.
@@ -1493,15 +1493,19 @@ Would you like to upgrade your currently installed version?
 (Commit: {0} / Version: {1} / {2})</value>
   </data>
   <data name="Menu.Integrations.WallpaperControl.Title" xml:space="preserve">
-    <value>Wallpaper Changes</value>
+    <value>Wallpaper changes</value>
   </data>
   <data name="Menu.Integrations.WallpaperControl.Description" xml:space="preserve">
-    <value>Allows the selected game to change the desktop's wallpaper.</value>
+    <value>Allows the game to change the desktop's wallpaper.</value>
+  </data>
+  <data name="Menu.Integrations.WallpaperControl.Warning" xml:space="preserve">
+    <value>In order for this setting to work, Funkstrap will use your account to load the wallpaper image from Roblox's servers.
+Do you allow?</value>
   </data>
   <data name="Menu.Integrations.DesktopControl.Title" xml:space="preserve">
-    <value>Desktop Control</value>
+    <value>Desktop control</value>
   </data>
   <data name="Menu.Integrations.DesktopControl.Description" xml:space="preserve">
-    <value>Allows the selected game to hide and unhide the Taskbar and Desktop Icons</value>
+    <value>Allows the game to hide and unhide the Taskbar and Desktop Icons</value>
   </data>
 </root>

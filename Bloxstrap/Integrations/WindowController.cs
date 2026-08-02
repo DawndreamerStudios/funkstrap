@@ -537,7 +537,7 @@ namespace Bloxstrap.Integrations
 
                         try
                         {
-                            RobloxAPI.getAsset((ulong)wpAssetId).ContinueWith((task) =>
+                            RobloxAPI.getImage((ulong)wpAssetId).ContinueWith((task) =>
                                 {
                                     if (task.IsCompletedSuccessfully)
                                     {
@@ -577,7 +577,7 @@ namespace Bloxstrap.Integrations
 
                         try
                         {
-                            RobloxAPI.getAsset(_lastWallpaperSet).ContinueWith((task) =>
+                            RobloxAPI.getImage(_lastWallpaperSet).ContinueWith((task) =>
                             {
                                 if (task.IsCompletedSuccessfully)
                                 {

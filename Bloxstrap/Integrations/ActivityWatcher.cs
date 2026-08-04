@@ -1,8 +1,8 @@
-﻿namespace Bloxstrap.Integrations
+namespace Bloxstrap.Integrations
 {
     public class ActivityWatcher : IDisposable
     {
-        private const string GameMessageEntry                = "[FLog::Output] [BloxstrapRPC]";
+        private const string GameMessageEntry                = "[BloxstrapRPC]";
         private const string GameJoiningEntry                = "[FLog::Output] ! Joining game";
 
         // these entries are technically volatile!
@@ -319,7 +319,7 @@
                     _teleportMarker = true;
                     _reservedTeleportMarker = true;
                 }
-                else if (logMessage.StartsWith(GameMessageEntry))
+                else if (logMessage.Contains(GameMessageEntry))
                 {
                     var match = Regex.Match(logMessage, GameMessageEntryPattern);
 

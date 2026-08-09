@@ -1403,22 +1403,6 @@ namespace Bloxstrap
                     Path.Combine(idsPath, "enabled.png"),
                     System.Drawing.Imaging.ImageFormat.Png
                 );
-
-                var wallpapersPath = Path.Combine(idsPath, "wallpapers");
-                Directory.CreateDirectory(wallpapersPath);
-
-                var preloadedPath = Path.Combine(AppContext.BaseDirectory, "Resources", "Preloaded");
-
-                if (Directory.Exists(preloadedPath))
-                {
-                    foreach (var file in Directory.GetFiles(preloadedPath))
-                    {
-                        var fileName = Path.GetFileName(file);
-                        var dest = Path.Combine(wallpapersPath, fileName);
-
-                        File.Copy(file, dest, true);
-                    }
-                }
             }
 
             // the manifest is primarily here to keep track of what files have been

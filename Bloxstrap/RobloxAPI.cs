@@ -115,7 +115,7 @@ namespace Bloxstrap
 
             var responseContent = await (await doRequest(GET_ASSET_URL + assetId, HttpMethod.Get)).Content.ReadFromJsonAsync<AssetDeliveryResponse>();
             
-            if (responseContent?.AssetTypeId != 13) // Image AssetTypeId
+            if (responseContent?.AssetTypeId != 1) // Image AssetTypeId
             {
                 throw new Exception($"Asset type {responseContent?.AssetTypeId ?? -1} is not supported");
             }

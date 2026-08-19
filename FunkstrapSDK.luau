@@ -327,6 +327,8 @@ if FunkstrapSDK.UsesBloxstrap and not FunkstrapSDK.IsGameAllowed then
 			onGameAllowed();
 		end
 	end)
+elseif FunkstrapSDK.IsGameAllowed then
+	onGameAllowed();
 end
 
 --[=[

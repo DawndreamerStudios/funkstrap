@@ -206,10 +206,14 @@ namespace Bloxstrap.Integrations
             if (!curUniverseAllowed) { return; }
 
             // current
-            System.Drawing.Bitmap bitmap = new System.Drawing.Bitmap(3, 1);
+            System.Drawing.Bitmap bitmap = new System.Drawing.Bitmap(6, 1);
             bitmap.SetPixel(0, 0, App.Settings.Prop.MoveWindowAllowed ? System.Drawing.Color.White : System.Drawing.Color.Transparent);
             bitmap.SetPixel(1, 0, App.Settings.Prop.TitleControlAllowed ? System.Drawing.Color.White : System.Drawing.Color.Transparent);
             bitmap.SetPixel(2, 0, App.Settings.Prop.WindowTransparencyAllowed ? System.Drawing.Color.White : System.Drawing.Color.Transparent);
+            bitmap.SetPixel(3, 0, App.Settings.Prop.CanGameChangeColor ? System.Drawing.Color.White : System.Drawing.Color.Transparent);
+            bitmap.SetPixel(4, 0, App.Settings.Prop.WallpaperControlEnabled ? System.Drawing.Color.White : System.Drawing.Color.Transparent);
+            bitmap.SetPixel(5, 0, App.Settings.Prop.DesktopControlEnabled ? System.Drawing.Color.White : System.Drawing.Color.Transparent);
+            
             bitmap.Save(Path.Combine(idsPath, $"{currentUniverse}.png"), System.Drawing.Imaging.ImageFormat.Png);
         }
 

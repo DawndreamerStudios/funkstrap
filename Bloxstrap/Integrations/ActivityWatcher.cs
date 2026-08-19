@@ -76,7 +76,7 @@ namespace Bloxstrap.Integrations
             // we'll tail the log file continuously, monitoring for any log entries that we need to determine the current game activity
 
             delay = defaultDelay;
-            windowLogDelay = 1000/(App.Settings.Prop.WindowReadFPS<1 ? 1 : App.Settings.Prop.WindowReadFPS); // maybe remove this one since it can be changed in runtime now
+            windowLogDelay = Math.Max(1000/(App.Settings.Prop.WindowReadFPS<1 ? 1 : App.Settings.Prop.WindowReadFPS), 1);
             
             FileInfo logFileInfo;
 

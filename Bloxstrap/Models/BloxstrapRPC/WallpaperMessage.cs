@@ -2,7 +2,7 @@ namespace Bloxstrap.Models.BloxstrapRPC;
 
 public class WallpaperMessage
 {
-    [JsonPropertyName("asset")]
+    [JsonPropertyName("assetId")]
     public ulong? AssetId { get; set; }
 
     [JsonPropertyName("style")]

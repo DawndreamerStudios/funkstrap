@@ -1,5 +1,3 @@
-using System.Text.Json.Serialization;
-
 namespace Bloxstrap.Models.BloxstrapRPC;
 
 public class DesktopVisibilityMessage

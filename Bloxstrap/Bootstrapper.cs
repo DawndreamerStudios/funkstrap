@@ -1382,6 +1382,7 @@ namespace Bloxstrap
                 }
             }
 
+            // TODO: Remove use window control check ?
             if (App.Settings.Prop.EnableActivityTracking && App.Settings.Prop.UseWindowControl)
             {
                 var idsPath = Path.Combine(_latestVersionDirectory, "content\\bloxstrap");

@@ -18,15 +18,6 @@ namespace Bloxstrap.Integrations
             "SetWindowTitle",
         };
 
-        private readonly List<string> ALLOWED_NONSTARTED = new() // Commands that work when window is started
-        {
-            "StartWindow",
-            "RequestWindowPermission",
-            "SetWindowTitle",
-            "SetWallpaper",
-            "CacheWallpaper"
-        };
-
         private readonly ActivityWatcher _activityWatcher; // activity watcher
         private UI.Elements.ContextMenu.MenuContainer? _menuContainer;
         private IntPtr _currentWindow; // roblox's hwnd
@@ -370,13 +361,7 @@ namespace Bloxstrap.Integrations
             if (_currentWindow == IntPtr.Zero) { return; }
 
             if (!curUniverseAllowed && (message.Command != "RequestWindowPermission" || lastUniverseThatRequested == _activityWatcher.Data.UniverseId) && !ALLOWED_GLOBALLY.Contains(message.Command)) {
-                App.Logger.WriteLine(LOG_IDENT,"Dropping command:" + message.Command);
-                return;
-            }
-            
-            // to avoid people saving the windows position or size to another place when startwindow is called later
-            if (!enabled && !ALLOWED_NONSTARTED.Contains(message.Command)) { 
-                App.Logger.WriteLine(LOG_IDENT,"Dropping command:" + message.Command);
+                App.Logger.WriteLine(LOG_IDENT, "Dropping command:" + message.Command);
                 return;
             }
 
@@ -394,7 +379,6 @@ namespace Bloxstrap.Integrations
 
                         updateState(true);
                         _activityWatcher.delay = _activityWatcher.windowLogDelay; // apply delay here, stopWindow will handle it for gameexit handle
-                        saveWindow();
                         break;
                     }
                 case "StopWindow":
@@ -412,10 +396,6 @@ namespace Bloxstrap.Integrations
 
                     MoveWindow(_startingX, _startingY, _startingWidth, _startingHeight);
                     break;
-                /*case "SaveWindow":
-                case "SetWindowDefault": // just like RestoreWindow, this one is getting removed soon
-                    saveWindow();
-                    break;*/
                 case "SetWindow":
                     {
                         if (!App.Settings.Prop.MoveWindowAllowed) { break; }
@@ -433,6 +413,9 @@ namespace Bloxstrap.Integrations
                             resetWindow();
                             return;
                         }
+
+                        if (!changedWindow)
+                            saveWindow();
 
                         if (windowData.ScaleWidth != null)
                             _lastSCWidth = (int)windowData.ScaleWidth;
@@ -632,7 +615,7 @@ namespace Bloxstrap.Integrations
                             return;
                         }
 
-                        _activityWatcher.watcher._notifyIcon?.ShowAlert(notifData.Title ?? "[[MISSING TITLE]]", notifData.Caption ?? "[[MISSING CAPTION]]", notifData.Duration ?? 5, null);
+                        _activityWatcher.watcher._notifyIcon?.ShowAlert(notifData.Title ?? "", notifData.Caption ?? "", notifData.Duration ?? 5, null);
                         break;
                     }
                 case "SetWindowColor":

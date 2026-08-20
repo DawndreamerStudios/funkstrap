@@ -73,9 +73,9 @@ const VALID_WALLPAPER_STYLES = { -- there's also checks on the funkstrap side
 	Span = true,
 }
 
-type AssetId = number? | string? | Content?;
-type Color = Color3? | string?;
-type WallpaperStyle = "Fill"|"Fit"|"Stretch"|"Tile"|"Center"|"Span";
+export type AssetId = number? | string? | Content?;
+export type Color = Color3? | string?;
+export type WallpaperStyle = "Fill"|"Fit"|"Stretch"|"Tile"|"Center"|"Span";
 
 export type RichPresence = {
 	details: string?|"<reset>",
@@ -143,13 +143,13 @@ function GetAssetId(asset: AssetId): number?
 	elseif typeof(asset) == "Content" then
 		return asset.Uri and tonumber(string.match(asset.Uri, "%d+")) or nil;
 	end
-	
+
 	return nil;
 end
 
 function ToUInt32(color : Color3) : string
 	local hexColor = color:ToHex();
-	
+
 	-- 0xbbggrr
 	return "0x"..(string.sub(hexColor,5,6)..string.sub(hexColor,3,4)..string.sub(hexColor,1,2));
 end
@@ -191,16 +191,16 @@ local rpcUpdateData : RichPresence = {};
 local function addImgChanges(key : string, newData : RichPresence)
 	local newImage : RichPresenceImage? = newData[key];
 	local updateImg : RichPresenceImage? = rpcUpdateData[key];
-	
+
 	if newImage then
 		if updateImg then
 			if newImage.assetId then
 				updateImg.clear = false;
 				updateImg.assetId = newImage.assetId;
 			end
-			
+
 			updateImg.hoverText = newImage.hoverText;
-			
+
 			if newImage.reset then updateImg.reset = true; updateImg.hoverText = nil; updateImg.assetId = nil; end;
 			if newImage.clear then updateImg.clear = true; updateImg.assetId = nil; end;
 		else
@@ -226,38 +226,38 @@ function FunkstrapSDK.SetRichPresence(data: RichPresence)
 	if data.largeImage ~= nil then
 		data.largeImage.assetId = GetAssetId(data.largeImage.assetId)
 	end
-	
+
 	local t = tick();
-	
+
 	if t-lastRichPresenceUpdate < RPC_RATELIMIT then
 		if not rpcUpdateQueued then
 			task.delay(1,function()
 				if next(rpcUpdateData) then
 					FunkstrapSDK.SetRichPresence(rpcUpdateData);
-					
+
 					rpcUpdateData = {};
 					rpcUpdateQueued = false;
 				end
 			end)
 		end
-		
+
 		rpcUpdateQueued = true;
-		
+
 		-- Add changes
 		do
 			addImgChanges("smallImage", data);
 			addImgChanges("largeImage", data);
-			
+
 			for k,v in data do
 				if k ~= "smallImage" and k ~= "largeImage" then
 					rpcUpdateData[k] = v;
 				end
 			end
 		end
-		
+
 		return;
 	end
-	
+
 	lastRichPresenceUpdate = t;
 
 	FunkstrapSDK.SendMessage("SetRichPresence", data)
@@ -273,7 +273,7 @@ end
 local function onGameAllowed()
 	local editable: EditableImage?
 	local settingsBuffer: buffer?
-	
+
 	pcall(function()
 		editable = game:GetService("AssetService"):CreateEditableImageAsync(Content.fromUri(GAME_ALLOWED_URI));
 		if editable then settingsBuffer = editable:ReadPixelsBuffer(Vector2.zero,Vector2.new(6,1)); end;
@@ -289,10 +289,10 @@ local function onGameAllowed()
 				WallpaperControl 	= buffer.readu8(settingsBuffer,16+3) == 255;
 				DesktopControl 		= buffer.readu8(settingsBuffer,20+3) == 255;
 			})
-			
+
 			print("[Debug] Imported settings from Funkstrap", HttpService:JSONEncode(FunkstrapSDK.ExposedSettings));
 		end);
-		
+
 		(editable :: EditableImage):Destroy();
 		editable = nil;
 	end
@@ -368,7 +368,7 @@ local prevTransWinData: WindowTransparencyData = {};
 function FunkstrapSDK.StartWindow()
 	FunkstrapSDK.WindowStarted = true;
 	FunkstrapSDK.SendMessage("StartWindow", nil)
-	
+
 	prevWinData = {};
 end
 
@@ -378,7 +378,7 @@ end
 function FunkstrapSDK.StopWindow()
 	FunkstrapSDK.WindowStarted = false;
 	FunkstrapSDK.SendMessage("StopWindow", nil)
-	
+
 	prevWinData = {};
 end
 
@@ -455,7 +455,7 @@ function FunkstrapSDK.SetTransparency(data: WindowTransparencyData)
 
 	local diff = makeDiff(prevTransWinData,data)
 	if not next(diff) then return end;
-	
+
 	if typeof(diff.color) == "Color3" then
 		diff.color = ToUInt32(diff.color);
 	end
@@ -486,7 +486,7 @@ end
 ]=]
 function FunkstrapSDK.SetWindowBorderless(status: boolean)
 	if not FunkstrapSDK.IsGameAllowed then return end;
-	
+
 	FunkstrapSDK.SendMessage("SetWindowBorderless", status or false)
 end
 
@@ -495,7 +495,7 @@ end
 ]=]
 function FunkstrapSDK.SendNotification(notificationData: NotificationData)
 	if not FunkstrapSDK.IsGameAllowed then return end;
-	
+
 	FunkstrapSDK.SendMessage("SendNotification", notificationData)
 end
 
@@ -504,22 +504,22 @@ end
 ]=]
 function FunkstrapSDK.SetWindowColor(data: WindowColorData)
 	if not FunkstrapSDK.IsGameAllowed then return end;
-	
+
 	if data.reset then
 		FunkstrapSDK.ResetWindowColor();
 		return;
 	end
-	
+
 	data.reset = nil;
-	
+
 	if typeof(data.border) == "Color3" then
 		data.border = ToUInt32(data.border);
 	end
-	
+
 	if typeof(data.caption) == "Color3" then
 		data.caption = ToUInt32(data.caption);
 	end
-	
+
 	FunkstrapSDK.SendMessage("SetWindowColor", data)
 end
 
@@ -528,7 +528,7 @@ end
 ]=]
 function FunkstrapSDK.ResetWindowColor()
 	if not FunkstrapSDK.IsGameAllowed then return end;
-	
+
 	FunkstrapSDK.SendMessage("SetWindowColor", { reset = true });
 end
 
@@ -537,7 +537,7 @@ end
 ]=]
 function FunkstrapSDK.CacheWallpaper(assetId: AssetId)
 	if not FunkstrapSDK.IsGameAllowed then return end;
-	
+
 	assetId = GetAssetId(assetId);
 	if not assetId then return; end;
 
@@ -549,14 +549,14 @@ end
 ]=]
 function FunkstrapSDK.SetWallpaper(data: WallpaperData)
 	if not FunkstrapSDK.IsGameAllowed then return end;
-	
+
 	data.assetId = GetAssetId(data.assetId);
 
 	if data.reset or not data.assetId then
 		FunkstrapSDK.ResetWallpaper();
 		return;
 	end
-	
+
 	data.reset = nil;
 
 	if not VALID_WALLPAPER_STYLES[data.style or -1] then
@@ -584,7 +584,7 @@ function FunkstrapSDK.SetDesktopVisibility(data: DesktopData)
 		FunkstrapSDK.ResetDesktopVisibility();
 		return;
 	end
-	
+
 	data.reset = nil;
 
 	if next(data) then

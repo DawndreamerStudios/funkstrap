@@ -12,7 +12,7 @@ namespace Bloxstrap.Integrations
         private const string GameTeleportingEntry            = "[FLog::UgcExperienceController] UgcExperienceController: doTeleport: joinScriptUrl";
         private const string GameJoiningUniverseEntry        = "[FLog::GameJoinLoadTime] Report game_join_loadtime:";
         private const string GameJoiningUDMUXEntry           = "[FLog::Network] UDMUX Address = ";
-        private const string GameJoinedEntry                 = "[FLog::Network] Replicator created: ";
+        private const string GameJoinedEntry                 = "[FLog::Network] serverId: ";
         private const string GameDisconnectedEntry           = "[FLog::Network] Time to disconnect replication data:";
         private const string GameLeavingEntry                = "[FLog::SingleSurfaceApp] leaveUGCGameInternal";
 

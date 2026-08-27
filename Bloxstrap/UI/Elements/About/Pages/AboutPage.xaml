@@ -88,12 +88,16 @@
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
 
-            <controls:Expander Grid.Column="0" Margin="0,0,4,0" HeaderIcon="Code24" HeaderText="{x:Static resources:Strings.Menu_About_Contributors_Code}" IsExpanded="True">
+            <controls:Expander Grid.Column="0" Margin="0,0,4,0" HeaderIcon="Code24" HeaderText="{x:Static resources:Strings.Menu_About_ContributorsFork}" IsExpanded="True">
                 <StackPanel>
+                    <controls:MarkdownTextBlock MarkdownText="Studio Members" />
                     <controls:MarkdownTextBlock MarkdownText="[Minz](https://github.com/Adrigamer278)" />
                     <controls:MarkdownTextBlock MarkdownText="[Furo](https://github.com/FuroYT)" />
                     <controls:MarkdownTextBlock MarkdownText="[Fireable](https://github.com/ItzFireable)" />
                     <controls:MarkdownTextBlock MarkdownText="[Sezei](https://github.com/Sezei)" />
+                    <controls:MarkdownTextBlock MarkdownText="" />
+                    <controls:MarkdownTextBlock MarkdownText="External Contributors" />
+                    <controls:MarkdownTextBlock MarkdownText="[RunaHehe](https://github.com/RunaHehe)" />
                 </StackPanel>
             </controls:Expander>
 

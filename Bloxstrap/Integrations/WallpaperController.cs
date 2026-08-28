@@ -10,6 +10,10 @@ public static class WallpaperController
     private const int SPIF_UPDATEINIFILE = 0x01;
     private const int SPIF_SENDCHANGE = 0x02;
     private static string? _originalWallpaper;
+    private static string? _originalWallpaperBackup;
+    private static object? _originalWallpaperStyle;
+    private static object? _originalTileWallpaper;
+    private static object? _originalBackgroundType;
     private static bool _wallpaperApps = false;
     private static readonly List<string> _closedWallpaperApps = new();
 
@@ -56,12 +60,44 @@ public static class WallpaperController
         const string LOG_IDENT = "WallpaperController::ResetWallpaper";
         try
         {
-            if (!string.IsNullOrEmpty(_originalWallpaper))
-                ApplyWallpaper(_originalWallpaper, "Fill");
+            // point Windows back at the real source file whenever it survived, so its wallpaper
+            // setting never ends up referencing our own temp copy
+            string? restorePath = File.Exists(_originalWallpaper) ? _originalWallpaper : _originalWallpaperBackup;
+
+            if (!string.IsNullOrEmpty(restorePath))
+            {
+                App.Logger.WriteLine(
+                    LOG_IDENT,
+                    $"Restoring wallpaper: {restorePath} | style={_originalWallpaperStyle} tile={_originalTileWallpaper} backgroundType={_originalBackgroundType}"
+                );
+
+                RestoreWallpaperState();
+
+                bool result = SystemParametersInfo(
+                    SPI_SETDESKWALLPAPER,
+                    0,
+                    restorePath,
+                    SPIF_UPDATEINIFILE | SPIF_SENDCHANGE
+                );
+
+                if (!result)
+                {
+                    App.Logger.WriteLine(
+                        LOG_IDENT,
+                        $"SystemParametersInfo failed: {Marshal.GetLastWin32Error()}"
+                    );
+                }
+
+                RestoreBackgroundType();
+            }
 
             RestoreWallpaperApps();
 
             _originalWallpaper = null;
+            _originalWallpaperBackup = null;
+            _originalWallpaperStyle = null;
+            _originalTileWallpaper = null;
+            _originalBackgroundType = null;
         } catch (Exception ex)
         {
             App.Logger.WriteLine(
@@ -77,8 +113,8 @@ public static class WallpaperController
 
         if (string.IsNullOrEmpty(_originalWallpaper))
         {
-            _originalWallpaper = GetCurrentWallpaper();
-            if (string.IsNullOrEmpty(_originalWallpaper))
+            string current = GetCurrentWallpaper();
+            if (string.IsNullOrEmpty(current))
             {
                 App.Logger.WriteLine(
                     LOG_IDENT,
@@ -87,6 +123,22 @@ public static class WallpaperController
 
                 return;
             }
+
+            _originalWallpaper = current;
+            _originalWallpaperBackup = BackupWallpaperFile(current);
+
+            if (!File.Exists(_originalWallpaper) && string.IsNullOrEmpty(_originalWallpaperBackup))
+            {
+                App.Logger.WriteLine(
+                    LOG_IDENT,
+                    $"No restorable copy of the current wallpaper ({current}), aborting change"
+                );
+
+                _originalWallpaper = null;
+                return;
+            }
+
+            SaveWallpaperState();
         }
 
         if (!VALID_STYLES.Contains(style.ToLower()))
@@ -115,6 +167,37 @@ public static class WallpaperController
         }
     }
 
+    // SPI_GETDESKWALLPAPER hands back Themes\TranscodedWallpaper, the cache Windows overwrites the
+    // moment a new wallpaper is applied, so the path alone is worthless by the time we restore it
+    private static string? BackupWallpaperFile(string path)
+    {
+        const string LOG_IDENT = "WallpaperController::BackupWallpaperFile";
+
+        try
+        {
+            if (!File.Exists(path))
+            {
+                App.Logger.WriteLine(LOG_IDENT, $"Current wallpaper does not exist on disk: {path}");
+                return null;
+            }
+
+            Directory.CreateDirectory(Paths.Temp);
+
+            string backupPath = Path.Combine(Paths.Temp, "OriginalWallpaper" + Path.GetExtension(path));
+
+            File.Copy(path, backupPath, true);
+
+            App.Logger.WriteLine(LOG_IDENT, $"Backed up {path} to {backupPath}");
+
+            return backupPath;
+        }
+        catch (Exception ex)
+        {
+            App.Logger.WriteLine(LOG_IDENT, $"Failed to back up wallpaper: {ex}");
+            return null;
+        }
+    }
+
     private static string GetCurrentWallpaper()
     {
         const int MAX_PATH = 260;
@@ -129,6 +212,59 @@ public static class WallpaperController
         );
 
         return buffer.ToString();
+    }
+
+    private const string DESKTOP_KEY = @"Control Panel\Desktop";
+    private const string WALLPAPERS_KEY = @"Software\Microsoft\Windows\CurrentVersion\Explorer\Wallpapers";
+    private const int BACKGROUND_TYPE_SLIDESHOW = 2;
+
+    private static void SaveWallpaperState()
+    {
+        using RegistryKey? desktop = Registry.CurrentUser.OpenSubKey(DESKTOP_KEY);
+        _originalWallpaperStyle = desktop?.GetValue("WallpaperStyle");
+        _originalTileWallpaper = desktop?.GetValue("TileWallpaper");
+
+        using RegistryKey? wallpapers = Registry.CurrentUser.OpenSubKey(WALLPAPERS_KEY);
+        _originalBackgroundType = wallpapers?.GetValue("BackgroundType");
+    }
+
+    private static void RestoreWallpaperState()
+    {
+        using RegistryKey? key = Registry.CurrentUser.OpenSubKey(DESKTOP_KEY, true);
+
+        if (key is null)
+            return;
+
+        if (_originalWallpaperStyle is not null)
+            key.SetValue("WallpaperStyle", _originalWallpaperStyle);
+
+        if (_originalTileWallpaper is not null)
+            key.SetValue("TileWallpaper", _originalTileWallpaper);
+    }
+
+    // SPI_SETDESKWALLPAPER forces BackgroundType to 0 (single picture), which permanently turns a
+    // slideshow or spotlight desktop into a static image unless we put the original value back.
+    private static void RestoreBackgroundType()
+    {
+        const string LOG_IDENT = "WallpaperController::RestoreBackgroundType";
+
+        if (_originalBackgroundType is not int backgroundType)
+            return;
+
+        using RegistryKey? key = Registry.CurrentUser.OpenSubKey(WALLPAPERS_KEY, true);
+
+        if (key is null)
+            return;
+
+        key.SetValue("BackgroundType", backgroundType, RegistryValueKind.DWord);
+
+        if (backgroundType == BACKGROUND_TYPE_SLIDESHOW)
+        {
+            App.Logger.WriteLine(
+                LOG_IDENT,
+                "Restored slideshow desktop; it resumes on the next Windows rotation"
+            );
+        }
     }
 
     private static void SetWallpaperStyle(string style)

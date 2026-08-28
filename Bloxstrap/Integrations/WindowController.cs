@@ -94,6 +94,8 @@ namespace Bloxstrap.Integrations
         public float widthMult = 1;
         public float heightMult = 1;
 
+        private WindowMonitorStyle? _appliedMonitorStyle = null;
+
         // screen size
         private int screenWidth = 0;
         private int screenHeight = 0;
@@ -113,6 +115,10 @@ namespace Bloxstrap.Integrations
         private uint _lastWindowBorderColor = 0x000000;
         private uint _lastTransparencyMode = 0x00000001;
         private ulong _lastWallpaperSet = 0;
+
+        private int _setTransparency = -1;
+        private uint _setWindowAlphaColor = 0;
+        private uint _setTransparencyMode = 0;
 
         private int _startingX = 0;
         private int _startingY = 0;
@@ -226,8 +232,10 @@ namespace Bloxstrap.Integrations
 
         public void updateWinMonitor()
         {
-            if (App.Settings.Prop.WindowMonitorStyle == WindowMonitorStyle.All)
+            if (App.Settings.Prop.WindowMonitorStyle == WindowMonitorStyle.SpanAllMonitors)
             {
+                _appliedMonitorStyle = WindowMonitorStyle.SpanAllMonitors;
+
                 screenWidth = SystemInformation.VirtualScreen.Width;
                 screenHeight = SystemInformation.VirtualScreen.Height;
 
@@ -241,13 +249,20 @@ namespace Bloxstrap.Integrations
                 return;
             }
 
+            if (_currentWindow == IntPtr.Zero) { return; }
+
             var curScreen = Screen.FromHandle(_currentWindow);
+
+            _appliedMonitorStyle = WindowMonitorStyle.CurrentMonitor;
 
             screenWidth = curScreen.Bounds.Width;
             screenHeight = curScreen.Bounds.Height;
 
             monitorX = curScreen.Bounds.X;
             monitorY = curScreen.Bounds.Y;
+
+            widthMult = 1;
+            heightMult = 1;
         }
 
         public void onWindowFound()
@@ -305,9 +320,10 @@ namespace Bloxstrap.Integrations
                 _lastWidth = _startingWidth;
                 _lastHeight = _startingHeight;
 
+                // the SDK keeps the last colour and mode across a reset, so wiping them here would
+                // make the next partial SetWindowTransparency key on black instead of the game's colour
                 _lastTransparency = 1;
-                _lastWindowAlphaColor = 0x000000;
-                _lastTransparencyMode = LWA_COLORKEY;
+                _setTransparency = -1;
 
                 // reset sets to defaults on the monitor it was found at the start
                 MoveWindow(_startingX,_startingY,_startingWidth,_startingHeight);
@@ -416,11 +432,13 @@ namespace Bloxstrap.Integrations
 
                         if (!changedWindow)
                             saveWindow();
+                        else if (_appliedMonitorStyle != App.Settings.Prop.WindowMonitorStyle)
+                            updateWinMonitor();
 
-                        if (windowData.ScaleWidth != null)
+                        if (windowData.ScaleWidth > 0)
                             _lastSCWidth = (int)windowData.ScaleWidth;
 
-                        if (windowData.ScaleHeight != null)
+                        if (windowData.ScaleHeight > 0)
                             _lastSCHeight = (int)windowData.ScaleHeight;
 
                         // scaling (float casting to fix integer division, might change screenWidth to float or something idk)
@@ -446,7 +464,15 @@ namespace Bloxstrap.Integrations
                         }
 
                         changedWindow = true;
-                        MoveWindow(_lastX + monitorX, _lastY + monitorY, (int)(_lastWidth * widthMult), (int)(_lastHeight * heightMult));
+
+                        int targetWidth = (int)(_lastWidth * widthMult);
+                        int targetHeight = (int)(_lastHeight * heightMult);
+                        int targetX = _lastX + monitorX;
+                        int targetY = _lastY + monitorY;
+
+                        ClampToDesktop(ref targetX, ref targetY, targetWidth, targetHeight);
+
+                        MoveWindow(targetX, targetY, targetWidth, targetHeight);
                         //App.Logger.WriteLine(LOG_IDENT, $"Updated Window Properties");
                         break;
                     }
@@ -484,8 +510,20 @@ namespace Bloxstrap.Integrations
 
                         changedWindow = true;
 
+                        if (_lastTransparency == _setTransparency
+                            && _lastWindowAlphaColor == _setWindowAlphaColor
+                            && _lastTransparencyMode == _setTransparencyMode)
+                            break;
+
+                        _setTransparency = _lastTransparency;
+                        _setWindowAlphaColor = _lastWindowAlphaColor;
+                        _setTransparencyMode = _lastTransparencyMode;
+
                         if (_lastTransparency == 255)
+                        {
                             SetWindowLong(_currentWindow, GWL_EXSTYLE, _windowLong);
+                            SetWindowPos(_currentWindow, IntPtr.Zero, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER | SWP_ASYNCWINDOWPOS | SWP_NOSENDCHANGING | SWP_FRAMECHANGED);
+                        }
                         else
                         {
                             SetWindowLong(_currentWindow, GWL_EXSTYLE, (_windowLong | WS_EX_LAYERED) & ~WS_EX_TRANSPARENT);
@@ -784,6 +822,24 @@ namespace Bloxstrap.Integrations
         private int _lastSetWidth = -1;
         private int _lastSetHeight = -1;
 
+        // a modchart is free to slide the window off the screen on purpose, so only keep a sliver of
+        // it reachable instead of stopping it dead against every desktop edge
+        private const int MIN_VISIBLE = 48;
+
+        private void ClampToDesktop(ref int x, ref int y, int width, int height)
+        {
+            var desktop = SystemInformation.VirtualScreen;
+
+            if (width <= 0 || height <= 0)
+                return;
+
+            int visibleX = Math.Min(MIN_VISIBLE, width);
+            int visibleY = Math.Min(MIN_VISIBLE, height);
+
+            x = Math.Min(Math.Max(x, desktop.X - width + visibleX), desktop.X + desktop.Width - visibleX);
+            y = Math.Min(Math.Max(y, desktop.Y - height + visibleY), desktop.Y + desktop.Height - visibleY);
+        }
+
         private void MoveWindow(int x, int y, int width, int height)
         {
             if (_currentWindow == IntPtr.Zero)
@@ -795,8 +851,8 @@ namespace Bloxstrap.Integrations
             if (!posChanged && !sizeChanged)
                 return; //nothing to do vro
 
-            _lastX = x;
-            _lastY = y;
+            _lastSetX = x;
+            _lastSetY = y;
             _lastSetWidth = width;
             _lastSetHeight = height;
 

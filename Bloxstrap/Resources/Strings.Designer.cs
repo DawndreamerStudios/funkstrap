@@ -1848,20 +1848,20 @@ namespace Bloxstrap.Resources {
         }
         
         /// <summary>
-        ///   Recherche une chaîne localisée semblable à All.
+        ///   Recherche une chaîne localisée semblable à Current monitor only.
         /// </summary>
-        public static string Enums_WindowMonitorStyle_All {
+        public static string Enums_WindowMonitorStyle_CurrentMonitor {
             get {
-                return ResourceManager.GetString("Enums.WindowMonitorStyle.All", resourceCulture);
+                return ResourceManager.GetString("Enums.WindowMonitorStyle.CurrentMonitor", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Recherche une chaîne localisée semblable à Single.
+        ///   Recherche une chaîne localisée semblable à Span all monitors.
         /// </summary>
-        public static string Enums_WindowMonitorStyle_Single {
+        public static string Enums_WindowMonitorStyle_SpanAllMonitors {
             get {
-                return ResourceManager.GetString("Enums.WindowMonitorStyle.Single", resourceCulture);
+                return ResourceManager.GetString("Enums.WindowMonitorStyle.SpanAllMonitors", resourceCulture);
             }
         }
         

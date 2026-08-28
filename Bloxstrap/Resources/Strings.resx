@@ -384,11 +384,11 @@ If it's not, then please report this exception through a [GitHub issue]({1}) alo
   <data name="Enums.Theme.Light" xml:space="preserve">
     <value>Light</value>
   </data>
-  <data name="Enums.WindowMonitorStyle.Single" xml:space="preserve">
-    <value>Single</value>
+  <data name="Enums.WindowMonitorStyle.CurrentMonitor" xml:space="preserve">
+    <value>Current monitor only</value>
   </data>
-  <data name="Enums.WindowMonitorStyle.All" xml:space="preserve">
-    <value>All</value>
+  <data name="Enums.WindowMonitorStyle.SpanAllMonitors" xml:space="preserve">
+    <value>Span all monitors</value>
   </data>
   <data name="InstallChecker.Updated" xml:space="preserve">
     <value>Funkstrap has been upgraded to v{0}</value>
@@ -733,7 +733,7 @@ Selecting 'No' will ignore this warning and continue installation.</value>
     <value>Monitor style</value>
   </data>
   <data name="Menu.Integrations.WindowMonitorStyle.Description" xml:space="preserve">
-    <value>Choose if the window should move in a single monitor or through all of them.</value>
+    <value>"Current monitor only" keeps the window inside the display Roblox is running on. "Span all monitors" treats every display as one large screen, so the window can end up split across the gap between two monitors.</value>
   </data>
   <data name="Menu.Integrations.WindowFPSLogRead.Title" xml:space="preserve">
     <value>FPS check rate</value>

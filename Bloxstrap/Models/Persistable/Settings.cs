@@ -28,7 +28,7 @@ namespace Bloxstrap.Models.Persistable
         public bool TitleControlAllowed { get; set; } = true;
         public bool WindowTransparencyAllowed { get; set; } = true;
         public bool CanGameChangeColor { get; set; } = true;
-        public WindowMonitorStyle WindowMonitorStyle { get; set; } = WindowMonitorStyle.Single;
+        public WindowMonitorStyle WindowMonitorStyle { get; set; } = WindowMonitorStyle.CurrentMonitor;
         public bool WallpaperControlEnabled { get; set; } = false;
         public bool DesktopControlEnabled { get; set; } = false;
 

@@ -248,6 +248,9 @@ namespace Bloxstrap.Integrations
 
             monitorX = curScreen.Bounds.X;
             monitorY = curScreen.Bounds.Y;
+
+            widthMult = 1;
+            heightMult = 1;
         }
 
         public void onWindowFound()
@@ -287,6 +290,11 @@ namespace Bloxstrap.Integrations
             _lastY = winRect.Top;
             _lastWidth = winRect.Right - winRect.Left;
             _lastHeight = winRect.Bottom - winRect.Top;
+
+            _lastSetX = _lastX;
+            _lastSetY = _lastY;
+            _lastSetWidth = _lastWidth;
+            _lastSetHeight = _lastHeight;
 
             _startingX = _lastX;
             _startingY = _lastY;
@@ -417,10 +425,10 @@ namespace Bloxstrap.Integrations
                         if (!changedWindow)
                             saveWindow();
 
-                        if (windowData.ScaleWidth != null)
+                        if (windowData.ScaleWidth > 0)
                             _lastSCWidth = (int)windowData.ScaleWidth;
 
-                        if (windowData.ScaleHeight != null)
+                        if (windowData.ScaleHeight > 0)
                             _lastSCHeight = (int)windowData.ScaleHeight;
 
                         // scaling (float casting to fix integer division, might change screenWidth to float or something idk)
@@ -445,8 +453,13 @@ namespace Bloxstrap.Integrations
                             _lastY = (int)(windowData.Y * scaleY + fakeHeightFix);
                         }
 
+                        int targetWidth = (int)(_lastWidth * widthMult);
+                        int targetHeight = (int)(_lastHeight * heightMult);
+                        int targetX = _lastX + monitorX;
+                        int targetY = _lastY + monitorY;
+
                         changedWindow = true;
-                        MoveWindow(_lastX + monitorX, _lastY + monitorY, (int)(_lastWidth * widthMult), (int)(_lastHeight * heightMult));
+                        MoveWindow(targetX, targetY, targetWidth, targetHeight);
                         //App.Logger.WriteLine(LOG_IDENT, $"Updated Window Properties");
                         break;
                     }
@@ -615,7 +628,11 @@ namespace Bloxstrap.Integrations
                             return;
                         }
 
-                        _activityWatcher.watcher._notifyIcon?.ShowAlert(notifData.Title ?? "", notifData.Caption ?? "", notifData.Duration ?? 5, null);
+                        _activityWatcher.watcher._notifyIcon?.ShowAlert(
+                            notifData.Title ?? "",
+                            notifData.Caption ?? "",
+                            notifData.Duration ?? 5,
+                            null);
                         break;
                     }
                 case "SetWindowColor":
@@ -795,8 +812,8 @@ namespace Bloxstrap.Integrations
             if (!posChanged && !sizeChanged)
                 return; //nothing to do vro
 
-            _lastX = x;
-            _lastY = y;
+            _lastSetX = x;
+            _lastSetY = y;
             _lastSetWidth = width;
             _lastSetHeight = height;
 

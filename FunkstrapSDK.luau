@@ -290,7 +290,7 @@ local function onGameAllowed()
 				DesktopControl 		= buffer.readu8(settingsBuffer,20+3) == 255;
 			})
 
-			print("[Debug] Imported settings from Funkstrap", HttpService:JSONEncode(FunkstrapSDK.ExposedSettings));
+			--print("[Debug] Imported settings from Funkstrap", HttpService:JSONEncode(FunkstrapSDK.ExposedSettings));
 		end);
 
 		(editable :: EditableImage):Destroy();

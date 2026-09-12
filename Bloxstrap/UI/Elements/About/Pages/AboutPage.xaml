@@ -98,6 +98,7 @@
                     <controls:MarkdownTextBlock MarkdownText="" />
                     <controls:MarkdownTextBlock MarkdownText="External Contributors" />
                     <controls:MarkdownTextBlock MarkdownText="[RunaHehe](https://github.com/RunaHehe)" />
+                    <controls:MarkdownTextBlock MarkdownText="[XackOne](https://www.roblox.com/users/399615773/profile)" />
                 </StackPanel>
             </controls:Expander>
 

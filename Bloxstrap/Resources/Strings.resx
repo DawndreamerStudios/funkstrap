@@ -385,10 +385,10 @@ If it's not, then please report this exception through a [GitHub issue]({1}) alo
     <value>Light</value>
   </data>
   <data name="Enums.WindowMonitorStyle.Single" xml:space="preserve">
-    <value>Single</value>
+    <value>Current monitor only</value>
   </data>
   <data name="Enums.WindowMonitorStyle.All" xml:space="preserve">
-    <value>All</value>
+    <value>Span all monitors</value>
   </data>
   <data name="InstallChecker.Updated" xml:space="preserve">
     <value>Funkstrap has been upgraded to v{0}</value>

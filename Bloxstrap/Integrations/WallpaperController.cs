@@ -6,12 +6,25 @@ namespace Bloxstrap.Integrations;
 public static class WallpaperController
 {
     private const int SPI_SETDESKWALLPAPER = 20;
-    private const int SPI_GETDESKWALLPAPER = 0x0073;
     private const int SPIF_UPDATEINIFILE = 0x01;
     private const int SPIF_SENDCHANGE = 0x02;
-    private static string? _originalWallpaper;
-    private static bool _wallpaperApps = false;
+    private static bool _areWallpaperAppsSaved = false;
     private static readonly List<string> _closedWallpaperApps = new();
+
+    // wallpaper restoring is an adaptation of https://gist.github.com/Drarig29/4aa001074826f7da69b5bb73a83ccd39
+    private const string DESKTOP_REG_PATH = @"Control Panel\Desktop";
+    private const string HISTORY_REG_PATH = @"SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Wallpapers";
+    private const int HISTORY_MAX_ENTRIES = 5; // this is actually the cap windows has
+
+    private static WallpaperState? _savedState;
+
+    private struct WallpaperState
+    {
+        public int Style;
+        public bool IsTile;
+        public string[] History;
+        public string Wallpaper;
+    }
 
     // String array of known apps (currently just Wallpaper Engine and Lively Wallpaper, as these are the main 2 everyone uses I believe)
     private static readonly string[] WallpaperProcesses =
@@ -56,12 +69,8 @@ public static class WallpaperController
         const string LOG_IDENT = "WallpaperController::ResetWallpaper";
         try
         {
-            if (!string.IsNullOrEmpty(_originalWallpaper))
-                ApplyWallpaper(_originalWallpaper, "Fill");
-
-            RestoreWallpaperApps();
-
-            _originalWallpaper = null;
+            RestoreWallpaper();
+            RestoreWallpaperApps();            
         } catch (Exception ex)
         {
             App.Logger.WriteLine(
@@ -75,19 +84,8 @@ public static class WallpaperController
     {
         const string LOG_IDENT = "WallpaperController::ApplyWallpaper";
 
-        if (string.IsNullOrEmpty(_originalWallpaper))
-        {
-            _originalWallpaper = GetCurrentWallpaper();
-            if (string.IsNullOrEmpty(_originalWallpaper))
-            {
-                App.Logger.WriteLine(
-                    LOG_IDENT,
-                    "Failed to get current wallpaper, aborting change"
-                );
-
-                return;
-            }
-        }
+        if (_savedState == null)
+            BackupState();
 
         if (!VALID_STYLES.Contains(style.ToLower()))
             style = "Fill";
@@ -97,14 +95,15 @@ public static class WallpaperController
             $"Applying wallpaper: {path} | style-{style}"
         );
 
-        SetWallpaperStyle(style);
-
         bool result = SystemParametersInfo(
             SPI_SETDESKWALLPAPER,
             0,
             path,
             SPIF_UPDATEINIFILE | SPIF_SENDCHANGE
         );
+
+        SetWallpaperStyle(style);
+        RestoreHistory(); // dont keep trace
 
         if (!result)
         {
@@ -115,28 +114,54 @@ public static class WallpaperController
         }
     }
 
-    private static string GetCurrentWallpaper()
+     private static void RestoreHistory()
     {
-        const int MAX_PATH = 260;
+        if (_savedState == null) return;
 
-        var buffer = new StringBuilder(MAX_PATH);
+        var backupState = _savedState.Value;
 
-        SystemParametersInfo(
-            SPI_GETDESKWALLPAPER,
-            MAX_PATH,
-            buffer,
-            0
-        );
+        using RegistryKey? historyKey = Registry.CurrentUser.OpenSubKey(HISTORY_REG_PATH, true);
+        
+        for (var i = 0; i < HISTORY_MAX_ENTRIES; i++)
+            if (backupState.History[i] != null)
+                historyKey?.SetValue($"BackgroundHistoryPath{i}", backupState.History[i], RegistryValueKind.String);
+    }
 
-        return buffer.ToString();
+    public static void BackupState()
+    {
+        var history = new string[HISTORY_MAX_ENTRIES];
+
+        using RegistryKey? historyKey = Registry.CurrentUser.OpenSubKey(HISTORY_REG_PATH, true);
+        for (var i = 0; i < history.Length; i++)
+            history[i] = historyKey?.GetValue($"BackgroundHistoryPath{i}") as string ?? string.Empty;
+
+        using RegistryKey? wpConfigKey = Registry.CurrentUser.OpenSubKey(DESKTOP_REG_PATH, true);
+        _savedState = new WallpaperState
+        {
+            Style = int.Parse(wpConfigKey?.GetValue("WallpaperStyle") as string ?? "0"),
+            IsTile = (wpConfigKey?.GetValue("TileWallpaper") as string ?? "0") == "1",
+            History = history,
+            Wallpaper = history[0],
+        };
+    }
+
+    public static void RestoreWallpaper()
+    {
+        if (_savedState == null) return;
+
+        using RegistryKey? key = Registry.CurrentUser.OpenSubKey(DESKTOP_REG_PATH, true);
+
+        ApplyWallpaper(_savedState.Value.Wallpaper);
+        key?.SetValue("WallpaperStyle", _savedState.Value.Style.ToString());
+        key?.SetValue("TileWallpaper", _savedState.Value.IsTile ? "1" : "0");
+        
+        RestoreHistory();
+        _savedState = null;
     }
 
     private static void SetWallpaperStyle(string style)
     {
-        using RegistryKey? key = Registry.CurrentUser.OpenSubKey(
-            @"Control Panel\Desktop",
-            true
-        );
+        using RegistryKey? key = Registry.CurrentUser.OpenSubKey(DESKTOP_REG_PATH, true);
 
         switch (style.ToLower())
         {
@@ -176,10 +201,10 @@ public static class WallpaperController
     {
         const string LOG_IDENT = "WallpaperController::CloseWallpaperApps";
 
-        if (_wallpaperApps)
+        if (_areWallpaperAppsSaved)
             return;
 
-        _wallpaperApps = true;
+        _areWallpaperAppsSaved = true;
 
         foreach (string procName in WallpaperProcesses)
         {
@@ -246,7 +271,7 @@ public static class WallpaperController
         }
 
         _closedWallpaperApps.Clear();
-        _wallpaperApps = false;
+        _areWallpaperAppsSaved = false;
     }
 
     [DllImport("user32.dll", CharSet = CharSet.Auto)]
@@ -254,14 +279,6 @@ public static class WallpaperController
         int uAction,
         int uParam,
         string lpvParam,
-        int fuWinIni
-    );
-
-    [DllImport("user32.dll", CharSet = CharSet.Auto)]
-    private static extern bool SystemParametersInfo(
-        int uAction,
-        int uParam,
-        System.Text.StringBuilder lpvParam,
         int fuWinIni
     );
 }
